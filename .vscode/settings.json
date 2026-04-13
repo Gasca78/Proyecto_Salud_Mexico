@@ -1,0 +1,13 @@
+{
+    "editor.inlineSuggest.enabled": false,
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "on",
+        "strings": "on"
+    },
+    "editor.suggestOnTriggerCharacters": false,
+    "editor.wordBasedSuggestions": "off",
+    "github.copilot.enable": {
+        "*": false
+    }
+}
