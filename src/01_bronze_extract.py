@@ -45,7 +45,7 @@ def download_file(url, data_path, file_name):
                         return
                     with zipfile.ZipFile(fake_zip) as mi_zip:
                         for file in mi_zip.namelist():
-                            if (file.endswith('.csv') or file.endswith('.txt')) and ('diccionario' not in file.lower()) and ('defunciones' in file.lower() or 'egreso' in file.lower()):
+                            if (file.endswith('.csv') or file.endswith('.txt')) and ('diccionario' not in file.lower()) and ('defunciones' in file.lower() or 'egresos' in file.lower()):
                                 with mi_zip.open(file) as intern_file:
                                     with open(file_path, 'wb') as output_file:
                                         shutil.copyfileobj(intern_file, output_file) # Shutil make chunks automatically
@@ -70,19 +70,20 @@ def download_file(url, data_path, file_name):
 
 # Diccionario de rutas para descarga de files:
 fuentes_datos = {
-    # 'poblacion_conapo': 'https://www.datos.gob.mx/dataset/f2b9b220-3ef7-4e3a-bde6-87e1dac78c6a/resource/3c3092be-583e-4490-8c23-67ef9a64b198/download/pobproy_quinq1.csv',
-    # 'mortalidad_inegi': 'https://www.inegi.org.mx/contenidos/programas/edr/datosabiertos/defunciones/2024/conjunto_de_datos_edr2024_csv.zip',
-    'egresos_dgis_2025': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2025.zip?v=2026.03.20',
-    'egresos_dgis_2024': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2024.zip?v=2025.05.22',
-    'egresos_dgis_2023': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2023.zip?v=2024.05.31',
-    'egresos_dgis_2022': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2022.zip?v=2023.05.22',
-    'egresos_dgis_2021': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2021.zip?v=2022.06.15',
-    'egresos_dgis_2020': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2020.zip?v=2022.03.17',
-    'egresos_dgis_2019': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2019.zip?v=1.1',
-    # 'egresos_dgis_2018': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2018.zip?v=1.1',
-    # 'egresos_dgis_2017': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2017.zip?v=1.1',
-    # 'egresos_dgis_2016': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2016.zip?v=1.1',
-    'egresos_dgis_2015': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2015.zip?v=1.1'
+    'poblacion_conapo': 'https://www.datos.gob.mx/dataset/f2b9b220-3ef7-4e3a-bde6-87e1dac78c6a/resource/3c3092be-583e-4490-8c23-67ef9a64b198/download/pobproy_quinq1.csv',
+    'mortalidad_inegi': 'https://www.inegi.org.mx/contenidos/programas/edr/datosabiertos/defunciones/2024/conjunto_de_datos_edr2024_csv.zip',
+    'egresos_dgis_2018': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2018.zip?v=1.1',
+    'egresos_dgis_2017': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2017.zip?v=1.1',
+    'egresos_dgis_2016': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2016.zip?v=1.1',
+    ########### Este bloque no se pudo descargar con código, fue descarga manual ###########
+    # 'egresos_dgis_2025': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2025.zip?v=2026.03.20',
+    # 'egresos_dgis_2024': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2024.zip?v=2025.05.22',
+    # 'egresos_dgis_2023': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2023.zip?v=2024.05.31',
+    # 'egresos_dgis_2022': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2022.zip?v=2023.05.22',
+    # 'egresos_dgis_2021': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2021.zip?v=2022.06.15',
+    # 'egresos_dgis_2020': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2020.zip?v=2022.03.17',
+    # 'egresos_dgis_2019': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2019.zip?v=1.1',
+    # 'egresos_dgis_2015': 'http://www.dgis.salud.gob.mx/descargas/datosabiertos/egresos/ssa_egresos_2015.zip?v=1.1'
 }
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))

@@ -1,0 +1,973 @@
+2026-04-15 20:54:42,591 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-15 20:55:00,076 - INFO - Closing down clientserver connection
+2026-04-15 22:35:27,079 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-15 22:35:46,686 - INFO - Closing down clientserver connection
+2026-04-15 22:36:37,217 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-15 22:37:01,662 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-15 22:37:09,347 - ERROR - Failure in Silver layer: 'Column' object is not callable
+2026-04-15 22:37:10,104 - INFO - spark_engine Engine off
+2026-04-15 22:37:10,118 - INFO - Closing down clientserver connection
+2026-04-16 10:40:53,855 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 10:41:15,655 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 10:41:27,235 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `FECHA_OCURR` cannot be resolved. Did you mean one of the following? [`DIA_OCURR`, `ANIO_OCUR`, `FECHA_NACIM`, `MES_OCURR`, `EDAD`]. SQLSTATE: 42703;
+'Project [ENT_RESID#322, NOMBRE_ENTIDADES_RESIDENCIA#1333, ANIO_OCUR#346, 'FECHA_OCURR, FECHA_NACIM#1285, SEXO#1449, EDAD#1391, CAUSA_DEF#330, DESCRIPCION_CAUSA#1329, TIPO_DEFUN#357, DESCRIPCION_TIPO_DEF#1331]
++- Project [ENT_RESID#322, CAUSA_DEF#330, CASE WHEN (SEXO#333 = 1) THEN HOMBRES WHEN (SEXO#333 = 2) THEN MUJERES ELSE DESCONOCIDO END AS SEXO#1449, EDAD#1391, DIA_OCURR#344, MES_OCURR#345, ANIO_OCUR#346, ANIO_NACIM#352, TIPO_DEFUN#357, FECHA_NACIM#1285, DESCRIPCION_CAUSA#1329, DESCRIPCION_TIPO_DEF#1331, NOMBRE_ENTIDADES_RESIDENCIA#1333]
+   +- Project [ENT_RESID#322, CAUSA_DEF#330, SEXO#333, CASE WHEN StartsWith(cast(EDAD#341 as string), 4) THEN (EDAD#341 - 4000) WHEN (EDAD#341 > 120) THEN cast(null as int) ELSE 0 END AS EDAD#1391, DIA_OCURR#344, MES_OCURR#345, ANIO_OCUR#346, ANIO_NACIM#352, TIPO_DEFUN#357, FECHA_NACIM#1285, DESCRIPCION_CAUSA#1329, DESCRIPCION_TIPO_DEF#1331, NOMBRE_ENTIDADES_RESIDENCIA#1333]
+      +- Project [ENT_RESID#322, CAUSA_DEF#330, SEXO#333, EDAD#341, DIA_OCURR#344, MES_OCURR#345, ANIO_OCUR#346, ANIO_NACIM#352, TIPO_DEFUN#357, FECHA_NACIM#1285, DESCRIPCION_CAUSA#1329, DESCRIPCION_TIPO_DEF#1331, NOMBRE_ENTIDADES_RESIDENCIA#1333]
+         +- Join LeftOuter, (ENT_RESID#322 = EDO#17)
+            :- Filter (ENT_RESID#322 <= 32)
+            :  +- Project [ENT_RESID#322, CAUSA_DEF#330, SEXO#333, EDAD#341, DIA_OCURR#344, MES_OCURR#345, ANIO_OCUR#346, ANIO_NACIM#352, TIPO_DEFUN#357, FECHA_NACIM#1285, DESCRIPCION_CAUSA#1329, DESCRIPCION_TIPO_DEF#1331]
+            :     +- Join LeftOuter, (TIPO_DEFUN#357 = CVE#124)
+            :        :- Project [ENT_RESID#322, CAUSA_DEF#330, SEXO#333, EDAD#341, DIA_OCURR#344, MES_OCURR#345, ANIO_OCUR#346, ANIO_NACIM#352, TIPO_DEFUN#357, FECHA_NACIM#1285, DESCRIPCION_CAUSA#1329]
+            :        :  +- Join LeftOuter, (CAUSA_DEF#330 = CLAVE#38)
+            :        :     :- Project [ENT_RESID#322, CAUSA_DEF#330, SEXO#333, EDAD#341, DIA_OCURR#344, MES_OCURR#345, ANIO_OCUR#346, ANIO_NACIM#352, TIPO_DEFUN#357, FECHA_NACIM#1285]
+            :        :     :  +- Project [ENT_RESID#322, CAUSA_DEF#330, SEXO#333, EDAD#341, DIA_OCURR#344, MES_OCURR#345, ANIO_OCUR#346, DIA_NACIM#350, MES_NACIM#351, ANIO_NACIM#352, TIPO_DEFUN#357, to_date(concat_ws(-, cast(ANIO_NACIM#352 as string), lpad(cast(MES_NACIM#351 as string), 2, 0), lpad(cast(DIA_NACIM#350 as string), 2, 0)), None, Some(America/Mexico_City), true) AS FECHA_NACIM#1285]
+            :        :     :     +- Project [ENT_RESID#322, CAUSA_DEF#330, SEXO#333, EDAD#341, DIA_OCURR#344, MES_OCURR#345, ANIO_OCUR#346, DIA_NACIM#350, MES_NACIM#351, ANIO_NACIM#352, TIPO_DEFUN#357]
+            :        :     :        +- Filter StartsWith(CAUSA_DEF#330, I)
+            :        :     :           +- Project [ent_regis#244 AS ENT_REGIS#318, mun_regis#245 AS MUN_REGIS#319, tloc_regis#246 AS TLOC_REGIS#320, loc_regis#247 AS LOC_REGIS#321, ent_resid#248 AS ENT_RESID#322, mun_resid#249 AS MUN_RESID#323, tloc_resid#250 AS TLOC_RESID#324, loc_resid#251 AS LOC_RESID#325, ent_ocurr#252 AS ENT_OCURR#326, mun_ocurr#253 AS MUN_OCURR#327, tloc_ocurr#254 AS TLOC_OCURR#328, loc_ocurr#255 AS LOC_OCURR#329, causa_def#256 AS CAUSA_DEF#330, cod_adicio#257 AS COD_ADICIO#331, lista_mex#258 AS LISTA_MEX#332, sexo#259 AS SEXO#333, ent_nac#260 AS ENT_NAC#334, afromex#261 AS AFROMEX#335, conindig#262 AS CONINDIG#336, lengua#263 AS LENGUA#337, cve_lengua#264 AS CVE_LENGUA#338, nacionalid#265 AS NACIONALID#339, nacesp_cve#266 AS NACESP_CVE#340, edad#267 AS EDAD#341, sem_gest#268 AS SEM_GEST#342, ... 49 more fields]
+            :        :     :              +- Relation [ent_regis#244,mun_regis#245,tloc_regis#246,loc_regis#247,ent_resid#248,mun_resid#249,tloc_resid#250,loc_resid#251,ent_ocurr#252,mun_ocurr#253,tloc_ocurr#254,loc_ocurr#255,causa_def#256,cod_adicio#257,lista_mex#258,sexo#259,ent_nac#260,afromex#261,conindig#262,lengua#263,cve_lengua#264,nacionalid#265,nacesp_cve#266,edad#267,sem_gest#268,... 49 more fields] csv
+            :        :     +- Project [CLAVE#38, NOMBRE#39 AS DESCRIPCION_CAUSA#1329]
+            :        :        +- Project [CLAVE#38, NOMBRE#39]
+            :        :           +- Relation [CONSECUTIVO#36,LETRA#37,CLAVE#38,NOMBRE#39,CODIGOX#40,LSEX#41,LINF#42,LSUP#43,TRIVIAL#44,ERRADICADO#45,N_INTER#46,NIN#47,NINMTOBS#48,COD_SIT_LESION#49,CBD#50,AF_PRIN#51,DIA_SIS#52,CLAVE_PROGRAMA_SIS#53,COD_COMPLEMEN_MORBI#54,DEF_FETAL_CM#55,DEF_FETAL_CBD#56,CLAVE_CAPITULO#57,CAPITULO#58,LISTA1#59,GRUPO1#60,... 46 more fields] csv
+            :        +- Project [CVE#124, DESCRIP#125 AS DESCRIPCION_TIPO_DEF#1331]
+            :           +- Relation [CVE#124,DESCRIP#125] csv
+            +- Project [EDO#17, DESCRIP#18 AS NOMBRE_ENTIDADES_RESIDENCIA#1333]
+               +- Relation [EDO#17,DESCRIP#18] csv
+
+2026-04-16 10:41:27,723 - INFO - spark_engine Engine off
+2026-04-16 10:41:27,737 - INFO - Closing down clientserver connection
+2026-04-16 10:44:25,037 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 10:44:42,329 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 10:44:54,242 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 10:44:54,963 - ERROR - Failure in Silver layer: An error occurred while calling o378.parquet.
+: java.lang.RuntimeException: java.io.FileNotFoundException: java.io.FileNotFoundException: HADOOP_HOME and hadoop.home.dir are unset. -see https://cwiki.apache.org/confluence/display/HADOOP2/WindowsProblems
+	at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:789)
+	at org.apache.hadoop.util.Shell.getSetPermissionCommand(Shell.java:298)
+	at org.apache.hadoop.util.Shell.getSetPermissionCommand(Shell.java:314)
+	at org.apache.hadoop.fs.RawLocalFileSystem.setPermission(RawLocalFileSystem.java:1179)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkOneDirWithMode(RawLocalFileSystem.java:861)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:901)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+	at org.apache.hadoop.fs.ChecksumFileSystem.mkdirs(ChecksumFileSystem.java:1047)
+	at org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter.setupJob(FileOutputCommitter.java:356)
+	at org.apache.spark.internal.io.HadoopMapReduceCommitProtocol.setupJob(HadoopMapReduceCommitProtocol.scala:180)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.writeAndCommit(FileFormatWriter.scala:268)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeWrite(FileFormatWriter.scala:306)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:189)
+	at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:195)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:117)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:115)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:129)
+	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:396)
+	at org.apache.spark.sql.execution.adaptive.ResultQueryStageExec.$anonfun$doMaterialize$1(QueryStageExec.scala:328)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$4(SQLExecution.scala:335)
+	at org.apache.spark.sql.execution.SQLExecution$.withSessionTagsApplied(SQLExecution.scala:285)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$3(SQLExecution.scala:333)
+	at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$2(SQLExecution.scala:329)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.spark.util.Utils$.getTryWithCallerStacktrace(Utils.scala:1453)
+	at org.apache.spark.util.LazyTry.get(LazyTry.scala:58)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:160)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:239)
+	at org.apache.spark.sql.classic.DataFrameWriter.runCommand(DataFrameWriter.scala:592)
+	at org.apache.spark.sql.classic.DataFrameWriter.save(DataFrameWriter.scala:115)
+	at org.apache.spark.sql.DataFrameWriter.parquet(DataFrameWriter.scala:369)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+	Suppressed: org.apache.spark.util.Utils$OriginalTryStackTraceException: Full stacktrace of original doTryWithCallerStacktrace caller
+		at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:789)
+		at org.apache.hadoop.util.Shell.getSetPermissionCommand(Shell.java:298)
+		at org.apache.hadoop.util.Shell.getSetPermissionCommand(Shell.java:314)
+		at org.apache.hadoop.fs.RawLocalFileSystem.setPermission(RawLocalFileSystem.java:1179)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkOneDirWithMode(RawLocalFileSystem.java:861)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:901)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+		at org.apache.hadoop.fs.ChecksumFileSystem.mkdirs(ChecksumFileSystem.java:1047)
+		at org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter.setupJob(FileOutputCommitter.java:356)
+		at org.apache.spark.internal.io.HadoopMapReduceCommitProtocol.setupJob(HadoopMapReduceCommitProtocol.scala:180)
+		at org.apache.spark.sql.execution.datasources.FileFormatWriter$.writeAndCommit(FileFormatWriter.scala:268)
+		at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeWrite(FileFormatWriter.scala:306)
+		at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:189)
+		at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:195)
+		at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:117)
+		at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:115)
+		at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:129)
+		at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:396)
+		at org.apache.spark.sql.execution.adaptive.ResultQueryStageExec.$anonfun$doMaterialize$1(QueryStageExec.scala:328)
+		at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$4(SQLExecution.scala:335)
+		at org.apache.spark.sql.execution.SQLExecution$.withSessionTagsApplied(SQLExecution.scala:285)
+		at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$3(SQLExecution.scala:333)
+		at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
+		at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$2(SQLExecution.scala:329)
+		at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+		... 1 more
+Caused by: java.io.FileNotFoundException: java.io.FileNotFoundException: HADOOP_HOME and hadoop.home.dir are unset. -see https://cwiki.apache.org/confluence/display/HADOOP2/WindowsProblems
+	at org.apache.hadoop.util.Shell.fileNotFoundException(Shell.java:601)
+	at org.apache.hadoop.util.Shell.getHadoopHomeDir(Shell.java:622)
+	at org.apache.hadoop.util.Shell.getQualifiedBin(Shell.java:645)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:742)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:80)
+	at org.apache.hadoop.conf.Configuration.getTimeDurationHelper(Configuration.java:1954)
+	at org.apache.hadoop.conf.Configuration.getTimeDuration(Configuration.java:1912)
+	at org.apache.hadoop.conf.Configuration.getTimeDuration(Configuration.java:1885)
+	at org.apache.hadoop.util.ShutdownHookManager.getShutdownTimeout(ShutdownHookManager.java:183)
+	at org.apache.hadoop.util.ShutdownHookManager$HookEntry.<init>(ShutdownHookManager.java:207)
+	at org.apache.hadoop.util.ShutdownHookManager.addShutdownHook(ShutdownHookManager.java:304)
+	at org.apache.spark.util.SparkShutdownHookManager.$anonfun$install$1(ShutdownHookManager.scala:194)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.Option.fold(Option.scala:263)
+	at org.apache.spark.util.SparkShutdownHookManager.install(ShutdownHookManager.scala:195)
+	at org.apache.spark.util.ShutdownHookManager$.shutdownHooks$lzycompute(ShutdownHookManager.scala:55)
+	at org.apache.spark.util.ShutdownHookManager$.shutdownHooks(ShutdownHookManager.scala:53)
+	at org.apache.spark.util.ShutdownHookManager$.addShutdownHook(ShutdownHookManager.scala:159)
+	at org.apache.spark.util.ShutdownHookManager$.<clinit>(ShutdownHookManager.scala:63)
+	at org.apache.spark.util.Utils$.createTempDir(Utils.scala:249)
+	at org.apache.spark.util.SparkFileUtils.createTempDir(SparkFileUtils.scala:125)
+	at org.apache.spark.util.SparkFileUtils.createTempDir$(SparkFileUtils.scala:124)
+	at org.apache.spark.util.Utils$.createTempDir(Utils.scala:97)
+	at org.apache.spark.deploy.SparkSubmit.prepareSubmitEnvironment(SparkSubmit.scala:378)
+	at org.apache.spark.deploy.SparkSubmit.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:962)
+	at org.apache.spark.deploy.SparkSubmit.doRunMain$1(SparkSubmit.scala:203)
+	at org.apache.spark.deploy.SparkSubmit.submit(SparkSubmit.scala:226)
+	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:95)
+	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:1168)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:1177)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+Caused by: java.io.FileNotFoundException: HADOOP_HOME and hadoop.home.dir are unset.
+	at org.apache.hadoop.util.Shell.checkHadoopHomeInner(Shell.java:521)
+	at org.apache.hadoop.util.Shell.checkHadoopHome(Shell.java:492)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:569)
+	... 27 more
+
+2026-04-16 10:44:55,396 - INFO - spark_engine Engine off
+2026-04-16 10:44:55,404 - INFO - Closing down clientserver connection
+2026-04-16 11:20:36,471 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 11:20:55,872 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 11:21:03,023 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 11:21:04,650 - ERROR - Failure in Silver layer: An error occurred while calling o378.parquet.
+: java.lang.RuntimeException: java.io.FileNotFoundException: java.io.FileNotFoundException: HADOOP_HOME and hadoop.home.dir are unset. -see https://cwiki.apache.org/confluence/display/HADOOP2/WindowsProblems
+	at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:789)
+	at org.apache.hadoop.util.Shell.getSetPermissionCommand(Shell.java:298)
+	at org.apache.hadoop.util.Shell.getSetPermissionCommand(Shell.java:314)
+	at org.apache.hadoop.fs.RawLocalFileSystem.setPermission(RawLocalFileSystem.java:1179)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkOneDirWithMode(RawLocalFileSystem.java:861)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:901)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
+	at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+	at org.apache.hadoop.fs.ChecksumFileSystem.mkdirs(ChecksumFileSystem.java:1047)
+	at org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter.setupJob(FileOutputCommitter.java:356)
+	at org.apache.spark.internal.io.HadoopMapReduceCommitProtocol.setupJob(HadoopMapReduceCommitProtocol.scala:180)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.writeAndCommit(FileFormatWriter.scala:268)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeWrite(FileFormatWriter.scala:306)
+	at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:189)
+	at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:195)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:117)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:115)
+	at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:129)
+	at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:396)
+	at org.apache.spark.sql.execution.adaptive.ResultQueryStageExec.$anonfun$doMaterialize$1(QueryStageExec.scala:328)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$4(SQLExecution.scala:335)
+	at org.apache.spark.sql.execution.SQLExecution$.withSessionTagsApplied(SQLExecution.scala:285)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$3(SQLExecution.scala:333)
+	at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
+	at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$2(SQLExecution.scala:329)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at org.apache.spark.util.Utils$.getTryWithCallerStacktrace(Utils.scala:1453)
+	at org.apache.spark.util.LazyTry.get(LazyTry.scala:58)
+	at org.apache.spark.sql.execution.QueryExecution.commandExecuted(QueryExecution.scala:160)
+	at org.apache.spark.sql.execution.QueryExecution.assertCommandExecuted(QueryExecution.scala:239)
+	at org.apache.spark.sql.classic.DataFrameWriter.runCommand(DataFrameWriter.scala:592)
+	at org.apache.spark.sql.classic.DataFrameWriter.save(DataFrameWriter.scala:115)
+	at org.apache.spark.sql.DataFrameWriter.parquet(DataFrameWriter.scala:369)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:244)
+	at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+	at py4j.Gateway.invoke(Gateway.java:282)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+	Suppressed: org.apache.spark.util.Utils$OriginalTryStackTraceException: Full stacktrace of original doTryWithCallerStacktrace caller
+		at org.apache.hadoop.util.Shell.getWinUtilsPath(Shell.java:789)
+		at org.apache.hadoop.util.Shell.getSetPermissionCommand(Shell.java:298)
+		at org.apache.hadoop.util.Shell.getSetPermissionCommand(Shell.java:314)
+		at org.apache.hadoop.fs.RawLocalFileSystem.setPermission(RawLocalFileSystem.java:1179)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkOneDirWithMode(RawLocalFileSystem.java:861)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:901)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirsWithOptionalPermission(RawLocalFileSystem.java:900)
+		at org.apache.hadoop.fs.RawLocalFileSystem.mkdirs(RawLocalFileSystem.java:873)
+		at org.apache.hadoop.fs.ChecksumFileSystem.mkdirs(ChecksumFileSystem.java:1047)
+		at org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter.setupJob(FileOutputCommitter.java:356)
+		at org.apache.spark.internal.io.HadoopMapReduceCommitProtocol.setupJob(HadoopMapReduceCommitProtocol.scala:180)
+		at org.apache.spark.sql.execution.datasources.FileFormatWriter$.writeAndCommit(FileFormatWriter.scala:268)
+		at org.apache.spark.sql.execution.datasources.FileFormatWriter$.executeWrite(FileFormatWriter.scala:306)
+		at org.apache.spark.sql.execution.datasources.FileFormatWriter$.write(FileFormatWriter.scala:189)
+		at org.apache.spark.sql.execution.datasources.InsertIntoHadoopFsRelationCommand.run(InsertIntoHadoopFsRelationCommand.scala:195)
+		at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult$lzycompute(commands.scala:117)
+		at org.apache.spark.sql.execution.command.DataWritingCommandExec.sideEffectResult(commands.scala:115)
+		at org.apache.spark.sql.execution.command.DataWritingCommandExec.executeCollect(commands.scala:129)
+		at org.apache.spark.sql.execution.adaptive.AdaptiveSparkPlanExec.$anonfun$executeCollect$1(AdaptiveSparkPlanExec.scala:396)
+		at org.apache.spark.sql.execution.adaptive.ResultQueryStageExec.$anonfun$doMaterialize$1(QueryStageExec.scala:328)
+		at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$4(SQLExecution.scala:335)
+		at org.apache.spark.sql.execution.SQLExecution$.withSessionTagsApplied(SQLExecution.scala:285)
+		at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$3(SQLExecution.scala:333)
+		at org.apache.spark.JobArtifactSet$.withActiveJobArtifactState(JobArtifactSet.scala:94)
+		at org.apache.spark.sql.execution.SQLExecution$.$anonfun$withThreadLocalCaptured$2(SQLExecution.scala:329)
+		at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768)
+		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+		... 1 more
+Caused by: java.io.FileNotFoundException: java.io.FileNotFoundException: HADOOP_HOME and hadoop.home.dir are unset. -see https://cwiki.apache.org/confluence/display/HADOOP2/WindowsProblems
+	at org.apache.hadoop.util.Shell.fileNotFoundException(Shell.java:601)
+	at org.apache.hadoop.util.Shell.getHadoopHomeDir(Shell.java:622)
+	at org.apache.hadoop.util.Shell.getQualifiedBin(Shell.java:645)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:742)
+	at org.apache.hadoop.util.StringUtils.<clinit>(StringUtils.java:80)
+	at org.apache.hadoop.conf.Configuration.getTimeDurationHelper(Configuration.java:1954)
+	at org.apache.hadoop.conf.Configuration.getTimeDuration(Configuration.java:1912)
+	at org.apache.hadoop.conf.Configuration.getTimeDuration(Configuration.java:1885)
+	at org.apache.hadoop.util.ShutdownHookManager.getShutdownTimeout(ShutdownHookManager.java:183)
+	at org.apache.hadoop.util.ShutdownHookManager$HookEntry.<init>(ShutdownHookManager.java:207)
+	at org.apache.hadoop.util.ShutdownHookManager.addShutdownHook(ShutdownHookManager.java:304)
+	at org.apache.spark.util.SparkShutdownHookManager.$anonfun$install$1(ShutdownHookManager.scala:194)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.Option.fold(Option.scala:263)
+	at org.apache.spark.util.SparkShutdownHookManager.install(ShutdownHookManager.scala:195)
+	at org.apache.spark.util.ShutdownHookManager$.shutdownHooks$lzycompute(ShutdownHookManager.scala:55)
+	at org.apache.spark.util.ShutdownHookManager$.shutdownHooks(ShutdownHookManager.scala:53)
+	at org.apache.spark.util.ShutdownHookManager$.addShutdownHook(ShutdownHookManager.scala:159)
+	at org.apache.spark.util.ShutdownHookManager$.<clinit>(ShutdownHookManager.scala:63)
+	at org.apache.spark.util.Utils$.createTempDir(Utils.scala:249)
+	at org.apache.spark.util.SparkFileUtils.createTempDir(SparkFileUtils.scala:125)
+	at org.apache.spark.util.SparkFileUtils.createTempDir$(SparkFileUtils.scala:124)
+	at org.apache.spark.util.Utils$.createTempDir(Utils.scala:97)
+	at org.apache.spark.deploy.SparkSubmit.prepareSubmitEnvironment(SparkSubmit.scala:378)
+	at org.apache.spark.deploy.SparkSubmit.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:962)
+	at org.apache.spark.deploy.SparkSubmit.doRunMain$1(SparkSubmit.scala:203)
+	at org.apache.spark.deploy.SparkSubmit.submit(SparkSubmit.scala:226)
+	at org.apache.spark.deploy.SparkSubmit.doSubmit(SparkSubmit.scala:95)
+	at org.apache.spark.deploy.SparkSubmit$$anon$2.doSubmit(SparkSubmit.scala:1168)
+	at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:1177)
+	at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+Caused by: java.io.FileNotFoundException: HADOOP_HOME and hadoop.home.dir are unset.
+	at org.apache.hadoop.util.Shell.checkHadoopHomeInner(Shell.java:521)
+	at org.apache.hadoop.util.Shell.checkHadoopHome(Shell.java:492)
+	at org.apache.hadoop.util.Shell.<clinit>(Shell.java:569)
+	... 27 more
+
+2026-04-16 11:21:05,024 - INFO - spark_engine Engine off
+2026-04-16 11:21:05,038 - INFO - Closing down clientserver connection
+2026-04-16 11:22:41,607 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 11:23:02,652 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 11:23:08,884 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 11:23:13,842 - ERROR - Failure in Silver layer: [CAST_INVALID_INPUT] The value '9999-99-99' of the type "STRING" cannot be cast to "DATE" because it is malformed. Correct the value as per the syntax, or change its target type. Use `try_cast` to tolerate malformed input and return NULL instead. SQLSTATE: 22018
+== DataFrame ==
+"to_date" was called from
+java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+
+2026-04-16 11:23:14,477 - INFO - spark_engine Engine off
+2026-04-16 11:23:14,489 - INFO - Closing down clientserver connection
+2026-04-16 12:26:10,474 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 12:26:33,457 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 12:26:39,014 - ERROR - Failure in Silver layer: An error occurred while calling z:org.apache.spark.sql.functions.col. Trace:
+py4j.Py4JException: Method col([class java.util.ArrayList]) does not exist
+	at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:321)
+	at py4j.reflection.ReflectionEngine.getMethod(ReflectionEngine.java:342)
+	at py4j.Gateway.invoke(Gateway.java:276)
+	at py4j.commands.AbstractCommand.invokeMethod(AbstractCommand.java:132)
+	at py4j.commands.CallCommand.execute(CallCommand.java:79)
+	at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:184)
+	at py4j.ClientServerConnection.run(ClientServerConnection.java:108)
+	at java.base/java.lang.Thread.run(Thread.java:842)
+
+
+2026-04-16 12:26:39,372 - INFO - spark_engine Engine off
+2026-04-16 12:26:39,387 - INFO - Closing down clientserver connection
+2026-04-16 12:27:55,664 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 12:28:19,130 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 12:28:25,294 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 12:28:34,052 - INFO - ¡Éxito! Datos guardados en: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\silver\mortalidad_inegi.parquet
+2026-04-16 12:28:34,301 - INFO - spark_engine Engine off
+2026-04-16 12:28:34,312 - INFO - Closing down clientserver connection
+2026-04-16 13:19:30,907 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 13:19:53,401 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 13:20:00,211 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 13:20:10,791 - INFO - ¡Éxito! Datos guardados en: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\silver\mortalidad_inegi.parquet
+2026-04-16 13:20:11,507 - INFO - spark_engine Engine off
+2026-04-16 13:20:11,526 - INFO - Closing down clientserver connection
+2026-04-16 13:20:29,714 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 13:20:46,925 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 13:20:52,583 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 13:21:00,720 - INFO - ¡Éxito! Datos guardados en: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\silver\mortalidad_inegi.parquet
+2026-04-16 13:21:00,720 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 13:21:01,955 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `ENT_RESID` cannot be resolved. Did you mean one of the following? [`NOM_ENT`, `CLAVE`, `NOM_MUN`, `SEXO`, `ANO`]. SQLSTATE: 42703;
+'Filter '`<=`('ENT_RESID, 32)
++- Project [CLAVE#475 AS CLAVE#502, CLAVE_ENT#476 AS CLAVE_ENT#503, NOM_ENT#477 AS NOM_ENT#504, NOM_MUN#478 AS NOM_MUN#505, SEXO#479 AS SEXO#506, ANO#480 AS ANO#507, POB_TOTAL#481 AS POB_TOTAL#508, POB_00_04#482 AS POB_00_04#509, POB_05_09#483 AS POB_05_09#510, POB_010_014#484 AS POB_010_014#511, POB_015_019#485 AS POB_015_019#512, POB_20_24#486 AS POB_20_24#513, POB_25_29#487 AS POB_25_29#514, POB_30_34#488 AS POB_30_34#515, POB_35_39#489 AS POB_35_39#516, POB_40_44#490 AS POB_40_44#517, POB_45_49#491 AS POB_45_49#518, POB_50_54#492 AS POB_50_54#519, POB_55_59#493 AS POB_55_59#520, POB_60_64#494 AS POB_60_64#521, POB_65_69#495 AS POB_65_69#522, POB_70_74#496 AS POB_70_74#523, POB_75_79#497 AS POB_75_79#524, POB_80_84#498 AS POB_80_84#525, POB_85_mm#499 AS POB_85_MM#526, ... 2 more fields]
+   +- Relation [CLAVE#475,CLAVE_ENT#476,NOM_ENT#477,NOM_MUN#478,SEXO#479,ANO#480,POB_TOTAL#481,POB_00_04#482,POB_05_09#483,POB_010_014#484,POB_015_019#485,POB_20_24#486,POB_25_29#487,POB_30_34#488,POB_35_39#489,POB_40_44#490,POB_45_49#491,POB_50_54#492,POB_55_59#493,POB_60_64#494,POB_65_69#495,POB_70_74#496,POB_75_79#497,POB_80_84#498,POB_85_mm#499,... 2 more fields] csv
+
+2026-04-16 13:21:02,213 - INFO - spark_engine Engine off
+2026-04-16 13:21:02,226 - INFO - Closing down clientserver connection
+2026-04-16 13:26:42,766 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 13:27:04,080 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 13:27:07,891 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `CLAVE` cannot be resolved. Did you mean one of the following? [`0-4`, `5-9`, `85+`, `ANO`, `CLAVE_ENT`]. SQLSTATE: 42703;
+'Unpivot ArraySeq(CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275), ArraySeq(List('CLAVE), List('NOM_ENT), List('NOM_MUN), List('POB_00_04), List('POB_05_09), List('POB_010_014), List('POB_015_019), List('POB_20_24), List('POB_25_29), List('POB_30_34), List('POB_35_39), List('POB_40_44), List('POB_45_49), List('POB_50_54), List('POB_55_59), List('POB_60_64), List('POB_65_69), List('POB_70_74), List('POB_75_79), List('POB_80_84), List('POB_85_MM), List(FECHA#296), List('ETIQUETA_ESTADO)), RANGO_EDAD, [POBLACION_TOTAL]
++- Sort [CLAVE_ENT#272 ASC NULLS FIRST, ANO#276 ASC NULLS FIRST, SEXO#275 ASC NULLS FIRST, FECHA#296 ASC NULLS FIRST], true
+   +- Aggregate [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#296], [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#296, sum(POB_TOTAL#277) AS POB_TOTAL#302L, sum(POB_00_04#278) AS 0-4#303L, sum(POB_05_09#279) AS 5-9#304L, sum(POB_010_014#280) AS 10-14#305L, sum(POB_015_019#281) AS 15-19#306L, sum(POB_20_24#282) AS 20-24#307L, sum(POB_25_29#283) AS 25-29#308L, sum(POB_30_34#284) AS 30-34#309L, sum(POB_35_39#285) AS 35-39#310L, sum(POB_40_44#286) AS 40-44#311L, sum(POB_45_49#287) AS 45-49#312L, sum(POB_50_54#288) AS 50-54#313L, sum(POB_55_59#289) AS 55-59#314L, sum(POB_60_64#290) AS 60-64#315L, sum(POB_65_69#291) AS 65-69#316L, sum(POB_70_74#292) AS 70-74#317L, sum(POB_75_79#293) AS 75-79#318L, sum(POB_80_84#294) AS 80-84#319L, sum(POB_85_MM#295) AS 85+#320L]
+      +- Project [CLAVE#271, CLAVE_ENT#272, NOM_ENT#273, NOM_MUN#274, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, ... 3 more fields]
+         +- Join LeftOuter, (CLAVE_ENT#272 = EDO#17)
+            :- Filter (CLAVE_ENT#272 <= 32)
+            :  +- Project [CLAVE#244 AS CLAVE#271, CLAVE_ENT#245 AS CLAVE_ENT#272, NOM_ENT#246 AS NOM_ENT#273, NOM_MUN#247 AS NOM_MUN#274, SEXO#248 AS SEXO#275, ANO#249 AS ANO#276, POB_TOTAL#250 AS POB_TOTAL#277, POB_00_04#251 AS POB_00_04#278, POB_05_09#252 AS POB_05_09#279, POB_010_014#253 AS POB_010_014#280, POB_015_019#254 AS POB_015_019#281, POB_20_24#255 AS POB_20_24#282, POB_25_29#256 AS POB_25_29#283, POB_30_34#257 AS POB_30_34#284, POB_35_39#258 AS POB_35_39#285, POB_40_44#259 AS POB_40_44#286, POB_45_49#260 AS POB_45_49#287, POB_50_54#261 AS POB_50_54#288, POB_55_59#262 AS POB_55_59#289, POB_60_64#263 AS POB_60_64#290, POB_65_69#264 AS POB_65_69#291, POB_70_74#265 AS POB_70_74#292, POB_75_79#266 AS POB_75_79#293, POB_80_84#267 AS POB_80_84#294, POB_85_mm#268 AS POB_85_MM#295, ... 2 more fields]
+            :     +- Relation [CLAVE#244,CLAVE_ENT#245,NOM_ENT#246,NOM_MUN#247,SEXO#248,ANO#249,POB_TOTAL#250,POB_00_04#251,POB_05_09#252,POB_010_014#253,POB_015_019#254,POB_20_24#255,POB_25_29#256,POB_30_34#257,POB_35_39#258,POB_40_44#259,POB_45_49#260,POB_50_54#261,POB_55_59#262,POB_60_64#263,POB_65_69#264,POB_70_74#265,POB_75_79#266,POB_80_84#267,POB_85_mm#268,... 2 more fields] csv
+            +- Project [EDO#17, DESCRIP#18 AS NOMBRE_ENTIDADES#301]
+               +- Relation [EDO#17,DESCRIP#18] csv
+
+2026-04-16 13:27:08,511 - INFO - spark_engine Engine off
+2026-04-16 13:27:08,524 - INFO - Closing down clientserver connection
+2026-04-16 13:29:52,774 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 13:30:08,362 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 13:30:11,377 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `NOM_ENT` cannot be resolved. Did you mean one of the following? [`0-4`, `10-14`, `15-19`, `20-24`, `25-29`]. SQLSTATE: 42703;
+'Unpivot ArraySeq(CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275), ArraySeq(List('NOM_ENT), List('POB_00_04), List('POB_05_09), List('POB_010_014), List('POB_015_019), List('POB_20_24), List('POB_25_29), List('POB_30_34), List('POB_35_39), List('POB_40_44), List('POB_45_49), List('POB_50_54), List('POB_55_59), List('POB_60_64), List('POB_65_69), List('POB_70_74), List('POB_75_79), List('POB_80_84), List('POB_85_MM), List(FECHA#299)), RANGO_EDAD, [POBLACION_TOTAL]
++- Sort [CLAVE_ENT#272 ASC NULLS FIRST, ANO#276 ASC NULLS FIRST, SEXO#275 ASC NULLS FIRST, FECHA#299 ASC NULLS FIRST], true
+   +- Aggregate [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#299], [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#299, sum(POB_TOTAL#277) AS POB_TOTAL#302L, sum(POB_00_04#278) AS 0-4#303L, sum(POB_05_09#279) AS 5-9#304L, sum(POB_010_014#280) AS 10-14#305L, sum(POB_015_019#281) AS 15-19#306L, sum(POB_20_24#282) AS 20-24#307L, sum(POB_25_29#283) AS 25-29#308L, sum(POB_30_34#284) AS 30-34#309L, sum(POB_35_39#285) AS 35-39#310L, sum(POB_40_44#286) AS 40-44#311L, sum(POB_45_49#287) AS 45-49#312L, sum(POB_50_54#288) AS 50-54#313L, sum(POB_55_59#289) AS 55-59#314L, sum(POB_60_64#290) AS 60-64#315L, sum(POB_65_69#291) AS 65-69#316L, sum(POB_70_74#292) AS 70-74#317L, sum(POB_75_79#293) AS 75-79#318L, sum(POB_80_84#294) AS 80-84#319L, sum(POB_85_MM#295) AS 85+#320L]
+      +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#301]
+         +- Join LeftOuter, (CLAVE_ENT#272 = EDO#17)
+            :- Filter (CLAVE_ENT#272 <= 32)
+            :  +- Filter atleastnnonnulls(24, CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299)
+            :     +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, to_date(FECHA#296, Some(dd/MM/yyyy), Some(America/Mexico_City), true) AS FECHA#299]
+            :        +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#296]
+            :           +- Project [CLAVE#244 AS CLAVE#271, CLAVE_ENT#245 AS CLAVE_ENT#272, NOM_ENT#246 AS NOM_ENT#273, NOM_MUN#247 AS NOM_MUN#274, SEXO#248 AS SEXO#275, ANO#249 AS ANO#276, POB_TOTAL#250 AS POB_TOTAL#277, POB_00_04#251 AS POB_00_04#278, POB_05_09#252 AS POB_05_09#279, POB_010_014#253 AS POB_010_014#280, POB_015_019#254 AS POB_015_019#281, POB_20_24#255 AS POB_20_24#282, POB_25_29#256 AS POB_25_29#283, POB_30_34#257 AS POB_30_34#284, POB_35_39#258 AS POB_35_39#285, POB_40_44#259 AS POB_40_44#286, POB_45_49#260 AS POB_45_49#287, POB_50_54#261 AS POB_50_54#288, POB_55_59#262 AS POB_55_59#289, POB_60_64#263 AS POB_60_64#290, POB_65_69#264 AS POB_65_69#291, POB_70_74#265 AS POB_70_74#292, POB_75_79#266 AS POB_75_79#293, POB_80_84#267 AS POB_80_84#294, POB_85_mm#268 AS POB_85_MM#295, ... 2 more fields]
+            :              +- Relation [CLAVE#244,CLAVE_ENT#245,NOM_ENT#246,NOM_MUN#247,SEXO#248,ANO#249,POB_TOTAL#250,POB_00_04#251,POB_05_09#252,POB_010_014#253,POB_015_019#254,POB_20_24#255,POB_25_29#256,POB_30_34#257,POB_35_39#258,POB_40_44#259,POB_45_49#260,POB_50_54#261,POB_55_59#262,POB_60_64#263,POB_65_69#264,POB_70_74#265,POB_75_79#266,POB_80_84#267,POB_85_mm#268,... 2 more fields] csv
+            +- Project [EDO#17, DESCRIP#18 AS NOMBRE_ENTIDADES#301]
+               +- Relation [EDO#17,DESCRIP#18] csv
+
+2026-04-16 13:30:11,764 - INFO - spark_engine Engine off
+2026-04-16 13:30:11,773 - INFO - Closing down clientserver connection
+2026-04-16 13:35:36,901 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 13:35:54,285 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 13:35:58,254 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `POB_00_04` cannot be resolved. Did you mean one of the following? [`POB_TOTAL`, `0-4`, `10-14`, `20-24`, `30-34`]. SQLSTATE: 42703;
+'Unpivot ArraySeq(CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275), ArraySeq(List('POB_00_04), List('POB_05_09), List('POB_010_014), List('POB_015_019), List('POB_20_24), List('POB_25_29), List('POB_30_34), List('POB_35_39), List('POB_40_44), List('POB_45_49), List('POB_50_54), List('POB_55_59), List('POB_60_64), List('POB_65_69), List('POB_70_74), List('POB_75_79), List('POB_80_84), List('POB_85_MM), List(FECHA#299)), RANGO_EDAD, [POBLACION_TOTAL]
++- Sort [CLAVE_ENT#272 ASC NULLS FIRST, ANO#276 ASC NULLS FIRST, SEXO#275 ASC NULLS FIRST, FECHA#299 ASC NULLS FIRST], true
+   +- Aggregate [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#299], [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#299, sum(POB_TOTAL#277) AS POB_TOTAL#302L, sum(POB_00_04#278) AS 0-4#303L, sum(POB_05_09#279) AS 5-9#304L, sum(POB_010_014#280) AS 10-14#305L, sum(POB_015_019#281) AS 15-19#306L, sum(POB_20_24#282) AS 20-24#307L, sum(POB_25_29#283) AS 25-29#308L, sum(POB_30_34#284) AS 30-34#309L, sum(POB_35_39#285) AS 35-39#310L, sum(POB_40_44#286) AS 40-44#311L, sum(POB_45_49#287) AS 45-49#312L, sum(POB_50_54#288) AS 50-54#313L, sum(POB_55_59#289) AS 55-59#314L, sum(POB_60_64#290) AS 60-64#315L, sum(POB_65_69#291) AS 65-69#316L, sum(POB_70_74#292) AS 70-74#317L, sum(POB_75_79#293) AS 75-79#318L, sum(POB_80_84#294) AS 80-84#319L, sum(POB_85_MM#295) AS 85+#320L]
+      +- Project [CLAVE_ENT#272, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#301]
+         +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#301]
+            +- Join LeftOuter, (CLAVE_ENT#272 = EDO#17)
+               :- Filter (CLAVE_ENT#272 <= 32)
+               :  +- Filter atleastnnonnulls(24, CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299)
+               :     +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, to_date(FECHA#296, Some(dd/MM/yyyy), Some(America/Mexico_City), true) AS FECHA#299]
+               :        +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#296]
+               :           +- Project [CLAVE#244 AS CLAVE#271, CLAVE_ENT#245 AS CLAVE_ENT#272, NOM_ENT#246 AS NOM_ENT#273, NOM_MUN#247 AS NOM_MUN#274, SEXO#248 AS SEXO#275, ANO#249 AS ANO#276, POB_TOTAL#250 AS POB_TOTAL#277, POB_00_04#251 AS POB_00_04#278, POB_05_09#252 AS POB_05_09#279, POB_010_014#253 AS POB_010_014#280, POB_015_019#254 AS POB_015_019#281, POB_20_24#255 AS POB_20_24#282, POB_25_29#256 AS POB_25_29#283, POB_30_34#257 AS POB_30_34#284, POB_35_39#258 AS POB_35_39#285, POB_40_44#259 AS POB_40_44#286, POB_45_49#260 AS POB_45_49#287, POB_50_54#261 AS POB_50_54#288, POB_55_59#262 AS POB_55_59#289, POB_60_64#263 AS POB_60_64#290, POB_65_69#264 AS POB_65_69#291, POB_70_74#265 AS POB_70_74#292, POB_75_79#266 AS POB_75_79#293, POB_80_84#267 AS POB_80_84#294, POB_85_mm#268 AS POB_85_MM#295, ... 2 more fields]
+               :              +- Relation [CLAVE#244,CLAVE_ENT#245,NOM_ENT#246,NOM_MUN#247,SEXO#248,ANO#249,POB_TOTAL#250,POB_00_04#251,POB_05_09#252,POB_010_014#253,POB_015_019#254,POB_20_24#255,POB_25_29#256,POB_30_34#257,POB_35_39#258,POB_40_44#259,POB_45_49#260,POB_50_54#261,POB_55_59#262,POB_60_64#263,POB_65_69#264,POB_70_74#265,POB_75_79#266,POB_80_84#267,POB_85_mm#268,... 2 more fields] csv
+               +- Project [EDO#17, DESCRIP#18 AS NOMBRE_ENTIDADES#301]
+                  +- Relation [EDO#17,DESCRIP#18] csv
+
+2026-04-16 13:35:58,821 - INFO - spark_engine Engine off
+2026-04-16 13:35:58,822 - INFO - Closing down clientserver connection
+2026-04-16 15:50:52,904 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 15:51:14,876 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 15:51:21,837 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `POB_00_04` cannot be resolved. Did you mean one of the following? [`POB_TOTAL`, `0-4`, `10-14`, `20-24`, `30-34`]. SQLSTATE: 42703;
+'Unpivot ArraySeq(CLAVE_ENT#272, NOMBRE_ENTIDADES#410, ANO#276, SEXO#275), ArraySeq(List('POB_00_04), List('POB_05_09), List('POB_010_014), List('POB_015_019), List('POB_20_24), List('POB_25_29), List('POB_30_34), List('POB_35_39), List('POB_40_44), List('POB_45_49), List('POB_50_54), List('POB_55_59), List('POB_60_64), List('POB_65_69), List('POB_70_74), List('POB_75_79), List('POB_80_84), List('POB_85_MM), List(FECHA#299)), RANGO_EDAD, [POBLACION_TOTAL]
++- Sort [CLAVE_ENT#272 ASC NULLS FIRST, ANO#276 ASC NULLS FIRST, SEXO#275 ASC NULLS FIRST, FECHA#299 ASC NULLS FIRST], true
+   +- Aggregate [CLAVE_ENT#272, NOMBRE_ENTIDADES#410, ANO#276, SEXO#275, FECHA#299], [CLAVE_ENT#272, NOMBRE_ENTIDADES#410, ANO#276, SEXO#275, FECHA#299, sum(POB_TOTAL#277) AS POB_TOTAL#510L, sum(POB_00_04#278) AS 0-4#511L, sum(POB_05_09#279) AS 5-9#512L, sum(POB_010_014#280) AS 10-14#513L, sum(POB_015_019#281) AS 15-19#514L, sum(POB_20_24#282) AS 20-24#515L, sum(POB_25_29#283) AS 25-29#516L, sum(POB_30_34#284) AS 30-34#517L, sum(POB_35_39#285) AS 35-39#518L, sum(POB_40_44#286) AS 40-44#519L, sum(POB_45_49#287) AS 45-49#520L, sum(POB_50_54#288) AS 50-54#521L, sum(POB_55_59#289) AS 55-59#522L, sum(POB_60_64#290) AS 60-64#523L, sum(POB_65_69#291) AS 65-69#524L, sum(POB_70_74#292) AS 70-74#525L, sum(POB_75_79#293) AS 75-79#526L, sum(POB_80_84#294) AS 80-84#527L, sum(POB_85_MM#295) AS 85+#528L]
+      +- Project [CLAVE_ENT#272, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#410]
+         +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#410]
+            +- Join LeftOuter, (CLAVE_ENT#272 = EDO#17)
+               :- Filter (CLAVE_ENT#272 <= 32)
+               :  +- Filter atleastnnonnulls(24, CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299)
+               :     +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, to_date(FECHA#296, Some(dd/MM/yyyy), Some(America/Mexico_City), true) AS FECHA#299]
+               :        +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#296]
+               :           +- Project [CLAVE#244 AS CLAVE#271, CLAVE_ENT#245 AS CLAVE_ENT#272, NOM_ENT#246 AS NOM_ENT#273, NOM_MUN#247 AS NOM_MUN#274, SEXO#248 AS SEXO#275, ANO#249 AS ANO#276, POB_TOTAL#250 AS POB_TOTAL#277, POB_00_04#251 AS POB_00_04#278, POB_05_09#252 AS POB_05_09#279, POB_010_014#253 AS POB_010_014#280, POB_015_019#254 AS POB_015_019#281, POB_20_24#255 AS POB_20_24#282, POB_25_29#256 AS POB_25_29#283, POB_30_34#257 AS POB_30_34#284, POB_35_39#258 AS POB_35_39#285, POB_40_44#259 AS POB_40_44#286, POB_45_49#260 AS POB_45_49#287, POB_50_54#261 AS POB_50_54#288, POB_55_59#262 AS POB_55_59#289, POB_60_64#263 AS POB_60_64#290, POB_65_69#264 AS POB_65_69#291, POB_70_74#265 AS POB_70_74#292, POB_75_79#266 AS POB_75_79#293, POB_80_84#267 AS POB_80_84#294, POB_85_mm#268 AS POB_85_MM#295, ... 2 more fields]
+               :              +- Relation [CLAVE#244,CLAVE_ENT#245,NOM_ENT#246,NOM_MUN#247,SEXO#248,ANO#249,POB_TOTAL#250,POB_00_04#251,POB_05_09#252,POB_010_014#253,POB_015_019#254,POB_20_24#255,POB_25_29#256,POB_30_34#257,POB_35_39#258,POB_40_44#259,POB_45_49#260,POB_50_54#261,POB_55_59#262,POB_60_64#263,POB_65_69#264,POB_70_74#265,POB_75_79#266,POB_80_84#267,POB_85_mm#268,... 2 more fields] csv
+               +- Project [EDO#17, DESCRIP#18 AS NOMBRE_ENTIDADES#410]
+                  +- Relation [EDO#17,DESCRIP#18] csv
+
+2026-04-16 15:51:22,466 - INFO - spark_engine Engine off
+2026-04-16 15:51:22,486 - INFO - Closing down clientserver connection
+2026-04-16 15:52:25,919 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 15:52:40,607 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 15:52:43,935 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `POB_00_04` cannot be resolved. Did you mean one of the following? [`POB_TOTAL`, `0-4`, `10-14`, `20-24`, `30-34`]. SQLSTATE: 42703;
+'Unpivot ArraySeq(CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275), ArraySeq(List('POB_00_04), List('POB_05_09), List('POB_010_014), List('POB_015_019), List('POB_20_24), List('POB_25_29), List('POB_30_34), List('POB_35_39), List('POB_40_44), List('POB_45_49), List('POB_50_54), List('POB_55_59), List('POB_60_64), List('POB_65_69), List('POB_70_74), List('POB_75_79), List('POB_80_84), List('POB_85_MM), List(FECHA#299)), RANGO_EDAD, [POBLACION_TOTAL]
++- Sort [CLAVE_ENT#272 ASC NULLS FIRST, ANO#276 ASC NULLS FIRST, SEXO#275 ASC NULLS FIRST, FECHA#299 ASC NULLS FIRST], true
+   +- Aggregate [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#299], [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#299, sum(POB_TOTAL#277) AS POB_TOTAL#302L, sum(POB_00_04#278) AS 0-4#303L, sum(POB_05_09#279) AS 5-9#304L, sum(POB_010_014#280) AS 10-14#305L, sum(POB_015_019#281) AS 15-19#306L, sum(POB_20_24#282) AS 20-24#307L, sum(POB_25_29#283) AS 25-29#308L, sum(POB_30_34#284) AS 30-34#309L, sum(POB_35_39#285) AS 35-39#310L, sum(POB_40_44#286) AS 40-44#311L, sum(POB_45_49#287) AS 45-49#312L, sum(POB_50_54#288) AS 50-54#313L, sum(POB_55_59#289) AS 55-59#314L, sum(POB_60_64#290) AS 60-64#315L, sum(POB_65_69#291) AS 65-69#316L, sum(POB_70_74#292) AS 70-74#317L, sum(POB_75_79#293) AS 75-79#318L, sum(POB_80_84#294) AS 80-84#319L, sum(POB_85_MM#295) AS 85+#320L]
+      +- Project [CLAVE_ENT#272, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#301]
+         +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#301]
+            +- Join LeftOuter, (CLAVE_ENT#272 = EDO#17)
+               :- Filter (CLAVE_ENT#272 <= 32)
+               :  +- Filter atleastnnonnulls(24, CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299)
+               :     +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, to_date(FECHA#296, Some(dd/MM/yyyy), Some(America/Mexico_City), true) AS FECHA#299]
+               :        +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#296]
+               :           +- Project [CLAVE#244 AS CLAVE#271, CLAVE_ENT#245 AS CLAVE_ENT#272, NOM_ENT#246 AS NOM_ENT#273, NOM_MUN#247 AS NOM_MUN#274, SEXO#248 AS SEXO#275, ANO#249 AS ANO#276, POB_TOTAL#250 AS POB_TOTAL#277, POB_00_04#251 AS POB_00_04#278, POB_05_09#252 AS POB_05_09#279, POB_010_014#253 AS POB_010_014#280, POB_015_019#254 AS POB_015_019#281, POB_20_24#255 AS POB_20_24#282, POB_25_29#256 AS POB_25_29#283, POB_30_34#257 AS POB_30_34#284, POB_35_39#258 AS POB_35_39#285, POB_40_44#259 AS POB_40_44#286, POB_45_49#260 AS POB_45_49#287, POB_50_54#261 AS POB_50_54#288, POB_55_59#262 AS POB_55_59#289, POB_60_64#263 AS POB_60_64#290, POB_65_69#264 AS POB_65_69#291, POB_70_74#265 AS POB_70_74#292, POB_75_79#266 AS POB_75_79#293, POB_80_84#267 AS POB_80_84#294, POB_85_mm#268 AS POB_85_MM#295, ... 2 more fields]
+               :              +- Relation [CLAVE#244,CLAVE_ENT#245,NOM_ENT#246,NOM_MUN#247,SEXO#248,ANO#249,POB_TOTAL#250,POB_00_04#251,POB_05_09#252,POB_010_014#253,POB_015_019#254,POB_20_24#255,POB_25_29#256,POB_30_34#257,POB_35_39#258,POB_40_44#259,POB_45_49#260,POB_50_54#261,POB_55_59#262,POB_60_64#263,POB_65_69#264,POB_70_74#265,POB_75_79#266,POB_80_84#267,POB_85_mm#268,... 2 more fields] csv
+               +- Project [EDO#17, DESCRIP#18 AS NOMBRE_ENTIDADES#301]
+                  +- Relation [EDO#17,DESCRIP#18] csv
+
+2026-04-16 15:52:44,186 - INFO - spark_engine Engine off
+2026-04-16 15:52:44,196 - INFO - Closing down clientserver connection
+2026-04-16 15:53:56,840 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 15:54:11,526 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 15:54:14,847 - ERROR - Failure in Silver layer: [UNPIVOT_VALUE_DATA_TYPE_MISMATCH] Unpivot value columns must share a least common type, some types do not: ["BIGINT" (`0-4`, `10-14`, `15-19`, ...), "DATE" (`FECHA`)]. SQLSTATE: 42K09;
+'Unpivot ArraySeq(CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275), ArraySeq(List(FECHA#299), List(0-4#303L), List(5-9#304L), List(10-14#305L), List(15-19#306L), List(20-24#307L), List(25-29#308L), List(30-34#309L), List(35-39#310L), List(40-44#311L), List(45-49#312L), List(50-54#313L), List(55-59#314L), List(60-64#315L), List(65-69#316L), List(70-74#317L), List(75-79#318L), List(80-84#319L), List(85+#320L)), RANGO_EDAD, [POBLACION_TOTAL]
++- Sort [CLAVE_ENT#272 ASC NULLS FIRST, ANO#276 ASC NULLS FIRST, SEXO#275 ASC NULLS FIRST, FECHA#299 ASC NULLS FIRST], true
+   +- Aggregate [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#299], [CLAVE_ENT#272, NOMBRE_ENTIDADES#301, ANO#276, SEXO#275, FECHA#299, sum(POB_TOTAL#277) AS POB_TOTAL#302L, sum(POB_00_04#278) AS 0-4#303L, sum(POB_05_09#279) AS 5-9#304L, sum(POB_010_014#280) AS 10-14#305L, sum(POB_015_019#281) AS 15-19#306L, sum(POB_20_24#282) AS 20-24#307L, sum(POB_25_29#283) AS 25-29#308L, sum(POB_30_34#284) AS 30-34#309L, sum(POB_35_39#285) AS 35-39#310L, sum(POB_40_44#286) AS 40-44#311L, sum(POB_45_49#287) AS 45-49#312L, sum(POB_50_54#288) AS 50-54#313L, sum(POB_55_59#289) AS 55-59#314L, sum(POB_60_64#290) AS 60-64#315L, sum(POB_65_69#291) AS 65-69#316L, sum(POB_70_74#292) AS 70-74#317L, sum(POB_75_79#293) AS 75-79#318L, sum(POB_80_84#294) AS 80-84#319L, sum(POB_85_MM#295) AS 85+#320L]
+      +- Project [CLAVE_ENT#272, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#301]
+         +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299, NOMBRE_ENTIDADES#301]
+            +- Join LeftOuter, (CLAVE_ENT#272 = EDO#17)
+               :- Filter (CLAVE_ENT#272 <= 32)
+               :  +- Filter atleastnnonnulls(24, CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#299)
+               :     +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, to_date(FECHA#296, Some(dd/MM/yyyy), Some(America/Mexico_City), true) AS FECHA#299]
+               :        +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, FECHA#296]
+               :           +- Project [CLAVE#244 AS CLAVE#271, CLAVE_ENT#245 AS CLAVE_ENT#272, NOM_ENT#246 AS NOM_ENT#273, NOM_MUN#247 AS NOM_MUN#274, SEXO#248 AS SEXO#275, ANO#249 AS ANO#276, POB_TOTAL#250 AS POB_TOTAL#277, POB_00_04#251 AS POB_00_04#278, POB_05_09#252 AS POB_05_09#279, POB_010_014#253 AS POB_010_014#280, POB_015_019#254 AS POB_015_019#281, POB_20_24#255 AS POB_20_24#282, POB_25_29#256 AS POB_25_29#283, POB_30_34#257 AS POB_30_34#284, POB_35_39#258 AS POB_35_39#285, POB_40_44#259 AS POB_40_44#286, POB_45_49#260 AS POB_45_49#287, POB_50_54#261 AS POB_50_54#288, POB_55_59#262 AS POB_55_59#289, POB_60_64#263 AS POB_60_64#290, POB_65_69#264 AS POB_65_69#291, POB_70_74#265 AS POB_70_74#292, POB_75_79#266 AS POB_75_79#293, POB_80_84#267 AS POB_80_84#294, POB_85_mm#268 AS POB_85_MM#295, ... 2 more fields]
+               :              +- Relation [CLAVE#244,CLAVE_ENT#245,NOM_ENT#246,NOM_MUN#247,SEXO#248,ANO#249,POB_TOTAL#250,POB_00_04#251,POB_05_09#252,POB_010_014#253,POB_015_019#254,POB_20_24#255,POB_25_29#256,POB_30_34#257,POB_35_39#258,POB_40_44#259,POB_45_49#260,POB_50_54#261,POB_55_59#262,POB_60_64#263,POB_65_69#264,POB_70_74#265,POB_75_79#266,POB_80_84#267,POB_85_mm#268,... 2 more fields] csv
+               +- Project [EDO#17, DESCRIP#18 AS NOMBRE_ENTIDADES#301]
+                  +- Relation [EDO#17,DESCRIP#18] csv
+
+2026-04-16 15:54:15,196 - INFO - spark_engine Engine off
+2026-04-16 15:54:15,211 - INFO - Closing down clientserver connection
+2026-04-16 16:05:29,190 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 16:05:46,200 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 16:05:49,779 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `FECHA` cannot be resolved. Did you mean one of the following? [`ANO`, `SEXO`, `CLAVE_ENT`, `POB_TOTAL`, `POB_00_04`]. SQLSTATE: 42703;
+'Aggregate [CLAVE_ENT#272, NOMBRE_ENTIDADES#300, ANO#276, SEXO#275, 'FECHA], [CLAVE_ENT#272, NOMBRE_ENTIDADES#300, ANO#276, SEXO#275, 'FECHA, sum(POB_TOTAL#277) AS POB_TOTAL#301L, sum(POB_00_04#278) AS 0-4#302L, sum(POB_05_09#279) AS 5-9#303L, sum(POB_010_014#280) AS 10-14#304L, sum(POB_015_019#281) AS 15-19#305L, sum(POB_20_24#282) AS 20-24#306L, sum(POB_25_29#283) AS 25-29#307L, sum(POB_30_34#284) AS 30-34#308L, sum(POB_35_39#285) AS 35-39#309L, sum(POB_40_44#286) AS 40-44#310L, sum(POB_45_49#287) AS 45-49#311L, sum(POB_50_54#288) AS 50-54#312L, sum(POB_55_59#289) AS 55-59#313L, sum(POB_60_64#290) AS 60-64#314L, sum(POB_65_69#291) AS 65-69#315L, sum(POB_70_74#292) AS 70-74#316L, sum(POB_75_79#293) AS 75-79#317L, sum(POB_80_84#294) AS 80-84#318L, sum(POB_85_MM#295) AS 85+#319L]
++- Project [CLAVE_ENT#272, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, NOMBRE_ENTIDADES#300]
+   +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295, NOMBRE_ENTIDADES#300]
+      +- Join LeftOuter, (CLAVE_ENT#272 = EDO#17)
+         :- Filter (CLAVE_ENT#272 <= 32)
+         :  +- Project [CLAVE_ENT#272, NOM_ENT#273, SEXO#275, ANO#276, POB_TOTAL#277, POB_00_04#278, POB_05_09#279, POB_010_014#280, POB_015_019#281, POB_20_24#282, POB_25_29#283, POB_30_34#284, POB_35_39#285, POB_40_44#286, POB_45_49#287, POB_50_54#288, POB_55_59#289, POB_60_64#290, POB_65_69#291, POB_70_74#292, POB_75_79#293, POB_80_84#294, POB_85_MM#295]
+         :     +- Project [CLAVE#244 AS CLAVE#271, CLAVE_ENT#245 AS CLAVE_ENT#272, NOM_ENT#246 AS NOM_ENT#273, NOM_MUN#247 AS NOM_MUN#274, SEXO#248 AS SEXO#275, ANO#249 AS ANO#276, POB_TOTAL#250 AS POB_TOTAL#277, POB_00_04#251 AS POB_00_04#278, POB_05_09#252 AS POB_05_09#279, POB_010_014#253 AS POB_010_014#280, POB_015_019#254 AS POB_015_019#281, POB_20_24#255 AS POB_20_24#282, POB_25_29#256 AS POB_25_29#283, POB_30_34#257 AS POB_30_34#284, POB_35_39#258 AS POB_35_39#285, POB_40_44#259 AS POB_40_44#286, POB_45_49#260 AS POB_45_49#287, POB_50_54#261 AS POB_50_54#288, POB_55_59#262 AS POB_55_59#289, POB_60_64#263 AS POB_60_64#290, POB_65_69#264 AS POB_65_69#291, POB_70_74#265 AS POB_70_74#292, POB_75_79#266 AS POB_75_79#293, POB_80_84#267 AS POB_80_84#294, POB_85_mm#268 AS POB_85_MM#295, ... 2 more fields]
+         :        +- Relation [CLAVE#244,CLAVE_ENT#245,NOM_ENT#246,NOM_MUN#247,SEXO#248,ANO#249,POB_TOTAL#250,POB_00_04#251,POB_05_09#252,POB_010_014#253,POB_015_019#254,POB_20_24#255,POB_25_29#256,POB_30_34#257,POB_35_39#258,POB_40_44#259,POB_45_49#260,POB_50_54#261,POB_55_59#262,POB_60_64#263,POB_65_69#264,POB_70_74#265,POB_75_79#266,POB_80_84#267,POB_85_mm#268,... 2 more fields] csv
+         +- Project [EDO#17, DESCRIP#18 AS NOMBRE_ENTIDADES#300]
+            +- Relation [EDO#17,DESCRIP#18] csv
+
+2026-04-16 16:05:50,295 - INFO - spark_engine Engine off
+2026-04-16 16:05:50,306 - INFO - Closing down clientserver connection
+2026-04-16 16:06:27,063 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 16:06:42,077 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 16:06:44,776 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 16:06:53,591 - INFO - ¡Éxito! Datos guardados en: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\silver\poblacion_conapo.parquet
+2026-04-16 16:06:53,907 - INFO - spark_engine Engine off
+2026-04-16 16:06:53,921 - INFO - Closing down clientserver connection
+2026-04-16 18:21:18,530 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-16 18:21:40,884 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\mortalidad_inegi_20260408.csv
+2026-04-16 18:21:47,507 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 18:21:57,725 - INFO - ¡Éxito! Datos guardados en: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\silver\mortalidad_inegi.parquet
+2026-04-16 18:21:57,726 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze\poblacion_conapo_20260408.csv
+2026-04-16 18:21:59,645 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-16 18:22:09,830 - INFO - ¡Éxito! Datos guardados en: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\silver\poblacion_conapo.parquet
+2026-04-16 18:22:10,571 - INFO - spark_engine Engine off
+2026-04-16 18:22:10,590 - INFO - Closing down clientserver connection
+2026-04-17 17:49:18,410 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 17:49:36,506 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 17:49:36,507 - ERROR - Failure in Silver layer: [Errno 2] No such file or directory: 'c:\\Users\\oswal\\OneDrive\\Documentos\\Personal\\Portafolio (Programación)\\proyecto_salud_mexico\\src\\..\\data\\egresos_dgis_2015_20260408.csv'
+2026-04-17 17:49:36,912 - INFO - spark_engine Engine off
+2026-04-17 17:49:36,928 - INFO - Closing down clientserver connection
+2026-04-17 17:55:02,317 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 17:55:16,534 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 17:55:16,534 - ERROR - Failure in Silver layer: [Errno 2] No such file or directory: 'c:\\Users\\oswal\\OneDrive\\Documentos\\Personal\\Portafolio (Programación)\\proyecto_salud_mexico\\src\\..\\data\\egresos_dgis_2015_20260408.csv'
+2026-04-17 17:55:16,906 - INFO - spark_engine Engine off
+2026-04-17 17:55:16,917 - INFO - Closing down clientserver connection
+2026-04-17 17:56:48,716 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 17:57:04,481 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 17:57:39,359 - ERROR - Failure in Silver layer: [CANNOT_CONVERT_COLUMN_INTO_BOOL] Cannot convert column into bool: please use '&' for 'and', '|' for 'or', '~' for 'not' when building DataFrame boolean expressions.
+2026-04-17 17:57:39,961 - INFO - spark_engine Engine off
+2026-04-17 17:57:39,971 - INFO - Closing down clientserver connection
+2026-04-17 18:16:10,113 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:16:25,841 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:16:59,461 - ERROR - Failure in Silver layer: [CANNOT_CONVERT_COLUMN_INTO_BOOL] Cannot convert column into bool: please use '&' for 'and', '|' for 'or', '~' for 'not' when building DataFrame boolean expressions.
+2026-04-17 18:16:59,796 - INFO - spark_engine Engine off
+2026-04-17 18:16:59,810 - INFO - Closing down clientserver connection
+2026-04-17 18:19:52,342 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:20:07,487 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:20:41,134 - ERROR - Failure in Silver layer: [CANNOT_CONVERT_COLUMN_INTO_BOOL] Cannot convert column into bool: please use '&' for 'and', '|' for 'or', '~' for 'not' when building DataFrame boolean expressions.
+2026-04-17 18:20:41,267 - INFO - spark_engine Engine off
+2026-04-17 18:20:41,277 - INFO - Closing down clientserver connection
+2026-04-17 18:23:44,172 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:23:59,013 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:24:37,876 - ERROR - Failure in Silver layer: [CANNOT_CONVERT_COLUMN_INTO_BOOL] Cannot convert column into bool: please use '&' for 'and', '|' for 'or', '~' for 'not' when building DataFrame boolean expressions.
+2026-04-17 18:24:38,540 - INFO - spark_engine Engine off
+2026-04-17 18:24:38,556 - INFO - Closing down clientserver connection
+2026-04-17 18:25:07,386 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:25:23,077 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:26:01,820 - ERROR - Failure in Silver layer: [CANNOT_CONVERT_COLUMN_INTO_BOOL] Cannot convert column into bool: please use '&' for 'and', '|' for 'or', '~' for 'not' when building DataFrame boolean expressions.
+2026-04-17 18:26:02,488 - INFO - spark_engine Engine off
+2026-04-17 18:26:02,523 - INFO - Closing down clientserver connection
+2026-04-17 18:27:04,178 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:27:11,751 - INFO - Error while sending or receiving.
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 527, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+2026-04-17 18:27:11,751 - INFO - Closing down clientserver connection
+2026-04-17 18:27:11,751 - INFO - Exception while sending command.
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 527, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 530, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending
+2026-04-17 18:27:15,824 - INFO - Closing down clientserver connection
+2026-04-17 18:27:15,824 - INFO - Error while receiving.
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 527, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 530, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 438, in connect_to_java_server
+    self.socket.connect((self.java_address, self.java_port))
+ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 535, in send_command
+    answer = smart_decode(self.stream.readline()[:-1])
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\pyspark\core\context.py", line 408, in signal_handler
+    self.cancelAllJobs()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\pyspark\core\context.py", line 2506, in cancelAllJobs
+    self._jsc.sc().cancelAllJobs()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1361, in __call__
+    answer = self.gateway_client.send_command(command)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1057, in send_command
+    response = self.send_command(command, retry, binary=binary)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1036, in send_command
+    connection = self._get_connection()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 284, in _get_connection
+    connection = self._create_new_connection()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 291, in _create_new_connection
+    connection.connect_to_java_server()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 438, in connect_to_java_server
+    self.socket.connect((self.java_address, self.java_port))
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\pyspark\core\context.py", line 408, in signal_handler
+    self.cancelAllJobs()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\pyspark\core\context.py", line 2506, in cancelAllJobs
+    self._jsc.sc().cancelAllJobs()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1361, in __call__
+    answer = self.gateway_client.send_command(command)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1036, in send_command
+    connection = self._get_connection()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 284, in _get_connection
+    connection = self._create_new_connection()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 291, in _create_new_connection
+    connection.connect_to_java_server()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 438, in connect_to_java_server
+    self.socket.connect((self.java_address, self.java_port))
+ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2026-04-17 18:27:15,824 - INFO - Closing down clientserver connection
+2026-04-17 18:27:15,824 - ERROR - Exception while sending command.
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 527, in send_command
+    self.socket.sendall(command.encode("utf-8"))
+ConnectionResetError: [WinError 10054] Se ha forzado la interrupción de una conexión existente por el host remoto
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 530, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 438, in connect_to_java_server
+    self.socket.connect((self.java_address, self.java_port))
+ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 535, in send_command
+    answer = smart_decode(self.stream.readline()[:-1])
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\socket.py", line 717, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\pyspark\core\context.py", line 408, in signal_handler
+    self.cancelAllJobs()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\pyspark\core\context.py", line 2506, in cancelAllJobs
+    self._jsc.sc().cancelAllJobs()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1361, in __call__
+    answer = self.gateway_client.send_command(command)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1057, in send_command
+    response = self.send_command(command, retry, binary=binary)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1036, in send_command
+    connection = self._get_connection()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 284, in _get_connection
+    connection = self._create_new_connection()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 291, in _create_new_connection
+    connection.connect_to_java_server()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 438, in connect_to_java_server
+    self.socket.connect((self.java_address, self.java_port))
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\pyspark\core\context.py", line 408, in signal_handler
+    self.cancelAllJobs()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\pyspark\core\context.py", line 2506, in cancelAllJobs
+    self._jsc.sc().cancelAllJobs()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1361, in __call__
+    answer = self.gateway_client.send_command(command)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1036, in send_command
+    connection = self._get_connection()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 284, in _get_connection
+    connection = self._create_new_connection()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 291, in _create_new_connection
+    connection.connect_to_java_server()
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 438, in connect_to_java_server
+    self.socket.connect((self.java_address, self.java_port))
+ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\java_gateway.py", line 1038, in send_command
+    response = connection.send_command(command)
+  File "C:\Users\oswal\miniforge3\envs\perspectiva_data\lib\site-packages\py4j\clientserver.py", line 566, in send_command
+    raise Py4JNetworkError(
+py4j.protocol.Py4JNetworkError: Error while sending or receiving
+2026-04-17 18:27:15,824 - INFO - Closing down clientserver connection
+2026-04-17 18:27:15,824 - INFO - Closing down clientserver connection
+2026-04-17 18:27:15,824 - INFO - Closing down clientserver connection
+2026-04-17 18:27:15,855 - INFO - Closing down clientserver connection
+2026-04-17 18:27:32,695 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:27:49,703 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:28:21,049 - ERROR - Failure in Silver layer: reduce() missing 1 required positional argument: 'merge'
+2026-04-17 18:28:21,457 - INFO - spark_engine Engine off
+2026-04-17 18:28:21,484 - INFO - Closing down clientserver connection
+2026-04-17 18:30:37,043 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:30:54,673 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:31:26,164 - ERROR - Failure in Silver layer: local variable 'df' referenced before assignment
+2026-04-17 18:31:26,720 - INFO - spark_engine Engine off
+2026-04-17 18:31:26,739 - INFO - Closing down clientserver connection
+2026-04-17 18:32:41,440 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:33:00,232 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:33:32,639 - ERROR - Failure in Silver layer: reduce() missing 1 required positional argument: 'merge'
+2026-04-17 18:33:32,933 - INFO - spark_engine Engine off
+2026-04-17 18:33:32,946 - INFO - Closing down clientserver connection
+2026-04-17 18:35:50,614 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:36:07,226 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:36:47,346 - ERROR - Failure in Silver layer: [INCOMPATIBLE_COLUMN_TYPE] UNION can only be performed on tables with compatible column types. The third column of the third table is "TIMESTAMP" type which is not compatible with "INT" at the same column of the first table.. SQLSTATE: 42825;
+'Union false, false
+:- Project [ID#1345L, CLUES#290, FOLIO#291, EGRESO#292, INGRE#293, cast(DIAS_ESTA#1346L as double) AS DIAS_ESTA#1367, cast(TUHPSIQ#295 as bigint) AS TUHPSIQ#1368L, SERVHC#296, SERVHP#297, CVEEDAD#1347L, EDAD#299, NACIOEN#300, SEXO#301, PESO#1348, cast(TALLA#303 as bigint) AS TALLA#1369L, cast(DERHAB#304 as bigint) AS DERHAB#1370L, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#1349L, TIPSERV#1350L, cast(SERVICIOINGRE#1351L as double) AS SERVICIOINGRE#1371, ... 20 more fields]
+:  +- Project [cast(ID#289 as bigint) AS ID#1345L, CLUES#290, FOLIO#291, EGRESO#292, INGRE#293, cast(DIAS_ESTA#294 as bigint) AS DIAS_ESTA#1346L, TUHPSIQ#295, SERVHC#296, SERVHP#297, cast(CVEEDAD#298 as bigint) AS CVEEDAD#1347L, EDAD#299, NACIOEN#300, SEXO#301, cast(PESO#302 as double) AS PESO#1348, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, cast(HABLA_ESP#311 as bigint) AS HABLA_ESP#1349L, cast(TIPSERV#312 as bigint) AS TIPSERV#1350L, cast(SERVICIOINGRE#313 as bigint) AS SERVICIOINGRE#1351L, ... 20 more fields]
+:     +- Filter StartsWith(AFECPRIN#327, I)
+:        +- Project [ID#244 AS ID#289, CLUES#245 AS CLUES#290, FOLIO#246 AS FOLIO#291, EGRESO#247 AS EGRESO#292, INGRE#248 AS INGRE#293, DIAS_ESTA#249 AS DIAS_ESTA#294, TUHPSIQ#250 AS TUHPSIQ#295, SERVHC#251 AS SERVHC#296, SERVHP#252 AS SERVHP#297, CVEEDAD#253 AS CVEEDAD#298, EDAD#254 AS EDAD#299, NACIOEN#255 AS NACIOEN#300, SEXO#256 AS SEXO#301, PESO#257 AS PESO#302, TALLA#258 AS TALLA#303, DERHAB#259 AS DERHAB#304, ENTIDAD#260 AS ENTIDAD#305, MUNIC#261 AS MUNIC#306, LOC#262 AS LOC#307, INDIGENA#263 AS INDIGENA#308, HABLA_LENGUA#264 AS HABLA_LENGUA#309, LENGUA_INDIGENA#265 AS LENGUA_INDIGENA#310, HABLA_ESP#266 AS HABLA_ESP#311, TIPSERV#267 AS TIPSERV#312, SERVICIOINGRE#268 AS SERVICIOINGRE#313, ... 20 more fields]
+:           +- Relation [ID#244,CLUES#245,FOLIO#246,EGRESO#247,INGRE#248,DIAS_ESTA#249,TUHPSIQ#250,SERVHC#251,SERVHP#252,CVEEDAD#253,EDAD#254,NACIOEN#255,SEXO#256,PESO#257,TALLA#258,DERHAB#259,ENTIDAD#260,MUNIC#261,LOC#262,INDIGENA#263,HABLA_LENGUA#264,LENGUA_INDIGENA#265,HABLA_ESP#266,TIPSERV#267,SERVICIOINGRE#268,... 20 more fields] csv
+:- Project [ID#1356L, CLUES#398, FOLIO#399, EGRESO#1357, INGRE#1358, cast(DIAS_ESTA#402L as double) AS DIAS_ESTA#1377, cast(TUHPSIQ#403 as bigint) AS TUHPSIQ#1378L, SERVHC#404, SERVHP#405, CVEEDAD#1359L, EDAD#407, NACIOEN#408, SEXO#409, PESO#410, cast(TALLA#411 as bigint) AS TALLA#1379L, cast(DERHAB#412 as bigint) AS DERHAB#1380L, ENTIDAD#413, MUNIC#414, LOC#415, INDIGENA#416, HABLA_LENGUA#417, LENGUA_INDIGENA#418, HABLA_ESP#1360L, TIPSERV#1361L, cast(SERVICIOINGRE#1362L as double) AS SERVICIOINGRE#1381, ... 20 more fields]
+:  +- Project [cast(ID#397 as bigint) AS ID#1356L, CLUES#398, FOLIO#399, cast(EGRESO#400 as timestamp) AS EGRESO#1357, cast(INGRE#401 as timestamp) AS INGRE#1358, DIAS_ESTA#402L, TUHPSIQ#403, SERVHC#404, SERVHP#405, cast(CVEEDAD#406 as bigint) AS CVEEDAD#1359L, EDAD#407, NACIOEN#408, SEXO#409, PESO#410, TALLA#411, DERHAB#412, ENTIDAD#413, MUNIC#414, LOC#415, INDIGENA#416, HABLA_LENGUA#417, LENGUA_INDIGENA#418, cast(HABLA_ESP#419 as bigint) AS HABLA_ESP#1360L, cast(TIPSERV#420 as bigint) AS TIPSERV#1361L, cast(SERVICIOINGRE#421 as bigint) AS SERVICIOINGRE#1362L, ... 20 more fields]
+:     +- Filter StartsWith(AFECPRIN#435, I)
+:        +- Project [ID#352 AS ID#397, CLUES#353 AS CLUES#398, FOLIO#354 AS FOLIO#399, EGRESO#355 AS EGRESO#400, INGRE#356 AS INGRE#401, DIAS_ESTA#357L AS DIAS_ESTA#402L, TUHPSIQ#358 AS TUHPSIQ#403, SERVHC#359 AS SERVHC#404, SERVHP#360 AS SERVHP#405, CVEEDAD#361 AS CVEEDAD#406, EDAD#362 AS EDAD#407, NACIOEN#363 AS NACIOEN#408, SEXO#364 AS SEXO#409, PESO#365 AS PESO#410, TALLA#366 AS TALLA#411, DERHAB#367 AS DERHAB#412, ENTIDAD#368 AS ENTIDAD#413, MUNIC#369 AS MUNIC#414, LOC#370 AS LOC#415, INDIGENA#371 AS INDIGENA#416, HABLA_LENGUA#372 AS HABLA_LENGUA#417, LENGUA_INDIGENA#373 AS LENGUA_INDIGENA#418, HABLA_ESP#374 AS HABLA_ESP#419, TIPSERV#375 AS TIPSERV#420, SERVICIOINGRE#376 AS SERVICIOINGRE#421, ... 20 more fields]
+:           +- Relation [ID#352,CLUES#353,FOLIO#354,EGRESO#355,INGRE#356,DIAS_ESTA#357L,TUHPSIQ#358,SERVHC#359,SERVHP#360,CVEEDAD#361,EDAD#362,NACIOEN#363,SEXO#364,PESO#365,TALLA#366,DERHAB#367,ENTIDAD#368,MUNIC#369,LOC#370,INDIGENA#371,HABLA_LENGUA#372,LENGUA_INDIGENA#373,HABLA_ESP#374,TIPSERV#375,SERVICIOINGRE#376,... 20 more fields] csv
++- Project [cast(ID#505 as bigint) AS ID#1387L, CLUES#506, EGRESO#507, INGRE#508, DIAS_ESTA#509, TUHPSIQ#510, cast(SERVHC#511 as bigint) AS SERVHC#1388L, SERVHP#512, CVEEDAD#513, cast(EDAD#514 as bigint) AS EDAD#1389L, NACIOEN#515, SEXO#516, PESO#517, cast(TALLA#518 as double) AS TALLA#1390, cast(DERHAB#519 as bigint) AS DERHAB#1391L, cast(ENTIDAD#520 as bigint) AS ENTIDAD#1392L, MUNIC#521, LOC#522, INDIGENA#523, HABLA_LENGUA#524, LENGUA_INDIGENA#525, HABLA_ESP#526, cast(TIPSERV#527 as bigint) AS TIPSERV#1393L, cast(SERVICIOINGRE#528 as bigint) AS SERVICIOINGRE#1394L, SERVICIO02#529, ... 20 more fields]
+   +- Filter StartsWith(AFECPRIN#542, I)
+      +- Project [ID#460 AS ID#505, CLUES#461 AS CLUES#506, EGRESO#462 AS EGRESO#507, INGRE#463 AS INGRE#508, DIAS_ESTA#464 AS DIAS_ESTA#509, TUHPSIQ#465 AS TUHPSIQ#510, SERVHC#466 AS SERVHC#511, SERVHP#467 AS SERVHP#512, CVEEDAD#468 AS CVEEDAD#513, EDAD#469 AS EDAD#514, NACIOEN#470 AS NACIOEN#515, SEXO#471 AS SEXO#516, PESO#472 AS PESO#517, TALLA#473 AS TALLA#518, DERHAB#474 AS DERHAB#519, ENTIDAD#475 AS ENTIDAD#520, MUNIC#476 AS MUNIC#521, LOC#477 AS LOC#522, INDIGENA#478 AS INDIGENA#523, HABLA_LENGUA#479 AS HABLA_LENGUA#524, LENGUA_INDIGENA#480 AS LENGUA_INDIGENA#525, HABLA_ESP#481 AS HABLA_ESP#526, TIPSERV#482 AS TIPSERV#527, SERVICIOINGRE#483 AS SERVICIOINGRE#528, SERVICIO02#484 AS SERVICIO02#529, ... 20 more fields]
+         +- Relation [ID#460,CLUES#461,EGRESO#462,INGRE#463,DIAS_ESTA#464,TUHPSIQ#465,SERVHC#466,SERVHP#467,CVEEDAD#468,EDAD#469,NACIOEN#470,SEXO#471,PESO#472,TALLA#473,DERHAB#474,ENTIDAD#475,MUNIC#476,LOC#477,INDIGENA#478,HABLA_LENGUA#479,LENGUA_INDIGENA#480,HABLA_ESP#481,TIPSERV#482,SERVICIOINGRE#483,SERVICIO02#484,... 20 more fields] csv
+
+2026-04-17 18:36:47,649 - INFO - spark_engine Engine off
+2026-04-17 18:36:47,660 - INFO - Closing down clientserver connection
+2026-04-17 18:43:07,015 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:43:25,594 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:43:32,057 - ERROR - Failure in Silver layer: local variable 'df' referenced before assignment
+2026-04-17 18:43:32,648 - INFO - spark_engine Engine off
+2026-04-17 18:43:32,661 - INFO - Closing down clientserver connection
+2026-04-17 18:44:05,964 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:44:20,834 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:44:51,750 - ERROR - Failure in Silver layer: [INCOMPATIBLE_COLUMN_TYPE] UNION can only be performed on tables with compatible column types. The third column of the third table is "DATE" type which is not compatible with "INT" at the same column of the first table.. SQLSTATE: 42825;
+'Union false, false
+:- Project [ID#1365L, CLUES#290, FOLIO#291, EGRESO#335, INGRE#336, cast(DIAS_ESTA#1366L as double) AS DIAS_ESTA#1385, cast(TUHPSIQ#295 as bigint) AS TUHPSIQ#1386L, SERVHC#296, SERVHP#297, CVEEDAD#1367L, EDAD#299, NACIOEN#300, SEXO#301, PESO#1368, cast(TALLA#303 as bigint) AS TALLA#1387L, cast(DERHAB#304 as bigint) AS DERHAB#1388L, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#1369L, TIPSERV#1370L, cast(SERVICIOINGRE#1371L as double) AS SERVICIOINGRE#1389, ... 20 more fields]
+:  +- Project [cast(ID#289 as bigint) AS ID#1365L, CLUES#290, FOLIO#291, EGRESO#335, INGRE#336, cast(DIAS_ESTA#294 as bigint) AS DIAS_ESTA#1366L, TUHPSIQ#295, SERVHC#296, SERVHP#297, cast(CVEEDAD#298 as bigint) AS CVEEDAD#1367L, EDAD#299, NACIOEN#300, SEXO#301, cast(PESO#302 as double) AS PESO#1368, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, cast(HABLA_ESP#311 as bigint) AS HABLA_ESP#1369L, cast(TIPSERV#312 as bigint) AS TIPSERV#1370L, cast(SERVICIOINGRE#313 as bigint) AS SERVICIOINGRE#1371L, ... 20 more fields]
+:     +- Project [ID#289, CLUES#290, FOLIO#291, EGRESO#335, to_date(INGRE#293, None, Some(America/Mexico_City), true) AS INGRE#336, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 20 more fields]
+:        +- Project [ID#289, CLUES#290, FOLIO#291, to_date(EGRESO#292, None, Some(America/Mexico_City), true) AS EGRESO#335, INGRE#293, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 20 more fields]
+:           +- Filter StartsWith(AFECPRIN#327, I)
+:              +- Project [ID#244 AS ID#289, CLUES#245 AS CLUES#290, FOLIO#246 AS FOLIO#291, EGRESO#247 AS EGRESO#292, INGRE#248 AS INGRE#293, DIAS_ESTA#249 AS DIAS_ESTA#294, TUHPSIQ#250 AS TUHPSIQ#295, SERVHC#251 AS SERVHC#296, SERVHP#252 AS SERVHP#297, CVEEDAD#253 AS CVEEDAD#298, EDAD#254 AS EDAD#299, NACIOEN#255 AS NACIOEN#300, SEXO#256 AS SEXO#301, PESO#257 AS PESO#302, TALLA#258 AS TALLA#303, DERHAB#259 AS DERHAB#304, ENTIDAD#260 AS ENTIDAD#305, MUNIC#261 AS MUNIC#306, LOC#262 AS LOC#307, INDIGENA#263 AS INDIGENA#308, HABLA_LENGUA#264 AS HABLA_LENGUA#309, LENGUA_INDIGENA#265 AS LENGUA_INDIGENA#310, HABLA_ESP#266 AS HABLA_ESP#311, TIPSERV#267 AS TIPSERV#312, SERVICIOINGRE#268 AS SERVICIOINGRE#313, ... 20 more fields]
+:                 +- Relation [ID#244,CLUES#245,FOLIO#246,EGRESO#247,INGRE#248,DIAS_ESTA#249,TUHPSIQ#250,SERVHC#251,SERVHP#252,CVEEDAD#253,EDAD#254,NACIOEN#255,SEXO#256,PESO#257,TALLA#258,DERHAB#259,ENTIDAD#260,MUNIC#261,LOC#262,INDIGENA#263,HABLA_LENGUA#264,LENGUA_INDIGENA#265,HABLA_ESP#266,TIPSERV#267,SERVICIOINGRE#268,... 20 more fields] csv
+:- Project [ID#1376L, CLUES#400, FOLIO#401, EGRESO#445, INGRE#446, cast(DIAS_ESTA#404L as double) AS DIAS_ESTA#1395, cast(TUHPSIQ#405 as bigint) AS TUHPSIQ#1396L, SERVHC#406, SERVHP#407, CVEEDAD#1377L, EDAD#409, NACIOEN#410, SEXO#411, PESO#412, cast(TALLA#413 as bigint) AS TALLA#1397L, cast(DERHAB#414 as bigint) AS DERHAB#1398L, ENTIDAD#415, MUNIC#416, LOC#417, INDIGENA#418, HABLA_LENGUA#419, LENGUA_INDIGENA#420, HABLA_ESP#1378L, TIPSERV#1379L, cast(SERVICIOINGRE#1380L as double) AS SERVICIOINGRE#1399, ... 20 more fields]
+:  +- Project [cast(ID#399 as bigint) AS ID#1376L, CLUES#400, FOLIO#401, EGRESO#445, INGRE#446, DIAS_ESTA#404L, TUHPSIQ#405, SERVHC#406, SERVHP#407, cast(CVEEDAD#408 as bigint) AS CVEEDAD#1377L, EDAD#409, NACIOEN#410, SEXO#411, PESO#412, TALLA#413, DERHAB#414, ENTIDAD#415, MUNIC#416, LOC#417, INDIGENA#418, HABLA_LENGUA#419, LENGUA_INDIGENA#420, cast(HABLA_ESP#421 as bigint) AS HABLA_ESP#1378L, cast(TIPSERV#422 as bigint) AS TIPSERV#1379L, cast(SERVICIOINGRE#423 as bigint) AS SERVICIOINGRE#1380L, ... 20 more fields]
+:     +- Project [ID#399, CLUES#400, FOLIO#401, EGRESO#445, to_date(INGRE#403, None, Some(America/Mexico_City), true) AS INGRE#446, DIAS_ESTA#404L, TUHPSIQ#405, SERVHC#406, SERVHP#407, CVEEDAD#408, EDAD#409, NACIOEN#410, SEXO#411, PESO#412, TALLA#413, DERHAB#414, ENTIDAD#415, MUNIC#416, LOC#417, INDIGENA#418, HABLA_LENGUA#419, LENGUA_INDIGENA#420, HABLA_ESP#421, TIPSERV#422, SERVICIOINGRE#423, ... 20 more fields]
+:        +- Project [ID#399, CLUES#400, FOLIO#401, to_date(EGRESO#402, None, Some(America/Mexico_City), true) AS EGRESO#445, INGRE#403, DIAS_ESTA#404L, TUHPSIQ#405, SERVHC#406, SERVHP#407, CVEEDAD#408, EDAD#409, NACIOEN#410, SEXO#411, PESO#412, TALLA#413, DERHAB#414, ENTIDAD#415, MUNIC#416, LOC#417, INDIGENA#418, HABLA_LENGUA#419, LENGUA_INDIGENA#420, HABLA_ESP#421, TIPSERV#422, SERVICIOINGRE#423, ... 20 more fields]
+:           +- Filter StartsWith(AFECPRIN#437, I)
+:              +- Project [ID#354 AS ID#399, CLUES#355 AS CLUES#400, FOLIO#356 AS FOLIO#401, EGRESO#357 AS EGRESO#402, INGRE#358 AS INGRE#403, DIAS_ESTA#359L AS DIAS_ESTA#404L, TUHPSIQ#360 AS TUHPSIQ#405, SERVHC#361 AS SERVHC#406, SERVHP#362 AS SERVHP#407, CVEEDAD#363 AS CVEEDAD#408, EDAD#364 AS EDAD#409, NACIOEN#365 AS NACIOEN#410, SEXO#366 AS SEXO#411, PESO#367 AS PESO#412, TALLA#368 AS TALLA#413, DERHAB#369 AS DERHAB#414, ENTIDAD#370 AS ENTIDAD#415, MUNIC#371 AS MUNIC#416, LOC#372 AS LOC#417, INDIGENA#373 AS INDIGENA#418, HABLA_LENGUA#374 AS HABLA_LENGUA#419, LENGUA_INDIGENA#375 AS LENGUA_INDIGENA#420, HABLA_ESP#376 AS HABLA_ESP#421, TIPSERV#377 AS TIPSERV#422, SERVICIOINGRE#378 AS SERVICIOINGRE#423, ... 20 more fields]
+:                 +- Relation [ID#354,CLUES#355,FOLIO#356,EGRESO#357,INGRE#358,DIAS_ESTA#359L,TUHPSIQ#360,SERVHC#361,SERVHP#362,CVEEDAD#363,EDAD#364,NACIOEN#365,SEXO#366,PESO#367,TALLA#368,DERHAB#369,ENTIDAD#370,MUNIC#371,LOC#372,INDIGENA#373,HABLA_LENGUA#374,LENGUA_INDIGENA#375,HABLA_ESP#376,TIPSERV#377,SERVICIOINGRE#378,... 20 more fields] csv
++- Project [cast(ID#509 as bigint) AS ID#1405L, CLUES#510, EGRESO#555, INGRE#556, DIAS_ESTA#513, TUHPSIQ#514, cast(SERVHC#515 as bigint) AS SERVHC#1406L, SERVHP#516, CVEEDAD#517, cast(EDAD#518 as bigint) AS EDAD#1407L, NACIOEN#519, SEXO#520, PESO#521, cast(TALLA#522 as double) AS TALLA#1408, cast(DERHAB#523 as bigint) AS DERHAB#1409L, cast(ENTIDAD#524 as bigint) AS ENTIDAD#1410L, MUNIC#525, LOC#526, INDIGENA#527, HABLA_LENGUA#528, LENGUA_INDIGENA#529, HABLA_ESP#530, cast(TIPSERV#531 as bigint) AS TIPSERV#1411L, cast(SERVICIOINGRE#532 as bigint) AS SERVICIOINGRE#1412L, SERVICIO02#533, ... 20 more fields]
+   +- Project [ID#509, CLUES#510, EGRESO#555, to_date(INGRE#512, None, Some(America/Mexico_City), true) AS INGRE#556, DIAS_ESTA#513, TUHPSIQ#514, SERVHC#515, SERVHP#516, CVEEDAD#517, EDAD#518, NACIOEN#519, SEXO#520, PESO#521, TALLA#522, DERHAB#523, ENTIDAD#524, MUNIC#525, LOC#526, INDIGENA#527, HABLA_LENGUA#528, LENGUA_INDIGENA#529, HABLA_ESP#530, TIPSERV#531, SERVICIOINGRE#532, SERVICIO02#533, ... 20 more fields]
+      +- Project [ID#509, CLUES#510, to_date(EGRESO#511, None, Some(America/Mexico_City), true) AS EGRESO#555, INGRE#512, DIAS_ESTA#513, TUHPSIQ#514, SERVHC#515, SERVHP#516, CVEEDAD#517, EDAD#518, NACIOEN#519, SEXO#520, PESO#521, TALLA#522, DERHAB#523, ENTIDAD#524, MUNIC#525, LOC#526, INDIGENA#527, HABLA_LENGUA#528, LENGUA_INDIGENA#529, HABLA_ESP#530, TIPSERV#531, SERVICIOINGRE#532, SERVICIO02#533, ... 20 more fields]
+         +- Filter StartsWith(AFECPRIN#546, I)
+            +- Project [ID#464 AS ID#509, CLUES#465 AS CLUES#510, EGRESO#466 AS EGRESO#511, INGRE#467 AS INGRE#512, DIAS_ESTA#468 AS DIAS_ESTA#513, TUHPSIQ#469 AS TUHPSIQ#514, SERVHC#470 AS SERVHC#515, SERVHP#471 AS SERVHP#516, CVEEDAD#472 AS CVEEDAD#517, EDAD#473 AS EDAD#518, NACIOEN#474 AS NACIOEN#519, SEXO#475 AS SEXO#520, PESO#476 AS PESO#521, TALLA#477 AS TALLA#522, DERHAB#478 AS DERHAB#523, ENTIDAD#479 AS ENTIDAD#524, MUNIC#480 AS MUNIC#525, LOC#481 AS LOC#526, INDIGENA#482 AS INDIGENA#527, HABLA_LENGUA#483 AS HABLA_LENGUA#528, LENGUA_INDIGENA#484 AS LENGUA_INDIGENA#529, HABLA_ESP#485 AS HABLA_ESP#530, TIPSERV#486 AS TIPSERV#531, SERVICIOINGRE#487 AS SERVICIOINGRE#532, SERVICIO02#488 AS SERVICIO02#533, ... 20 more fields]
+               +- Relation [ID#464,CLUES#465,EGRESO#466,INGRE#467,DIAS_ESTA#468,TUHPSIQ#469,SERVHC#470,SERVHP#471,CVEEDAD#472,EDAD#473,NACIOEN#474,SEXO#475,PESO#476,TALLA#477,DERHAB#478,ENTIDAD#479,MUNIC#480,LOC#481,INDIGENA#482,HABLA_LENGUA#483,LENGUA_INDIGENA#484,HABLA_ESP#485,TIPSERV#486,SERVICIOINGRE#487,SERVICIO02#488,... 20 more fields] csv
+
+2026-04-17 18:44:52,100 - INFO - spark_engine Engine off
+2026-04-17 18:44:52,123 - INFO - Closing down clientserver connection
+2026-04-17 18:49:28,562 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 18:49:49,436 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 18:50:25,559 - ERROR - Failure in Silver layer: Cannot resolve column name "FOLIO" among (ID, CLUES, EGRESO, INGRE, DIAS_ESTA, TUHPSIQ, SERVHC, SERVHP, CVEEDAD, EDAD, NACIOEN, SEXO, PESO, TALLA, DERHAB, ENTIDAD, MUNIC, LOC, INDIGENA, HABLA_LENGUA, LENGUA_INDIGENA, HABLA_ESP, TIPSERV, SERVICIOINGRE, SERVICIO02, SERVICIO03, SERVICIOEGRE, SA_LABOR, SA_EXPUL, SA_RECUP, SA_INTEN, SA_INTERM, PROCED, CLUESPROCED, MOTEGRE, CLUESREFERIDO, DIAG_INI, AFECPRIN, VEZ, INFEC, CAUSAEXT, TRAUMAT, LUGAR, MES_ESTADISTICO, ESTADO_CONYUGAL_KEY).
+2026-04-17 18:50:25,813 - INFO - spark_engine Engine off
+2026-04-17 18:50:25,826 - INFO - Closing down clientserver connection
+2026-04-17 19:06:54,526 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 19:07:18,202 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 19:07:55,500 - ERROR - Failure in Silver layer: [NUM_COLUMNS_MISMATCH] UNION can only be performed on inputs with the same number of columns, but the first input has 44 columns and the second input has 45 columns. SQLSTATE: 42826;
+'Union false, false
+:- Filter StartsWith(AFECPRIN#327, I)
+:  +- Project [ID#289, CLUES#290, EGRESO#292, INGRE#293, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, SERVICIO02#314, ... 19 more fields]
+:     +- Project [ID#244 AS ID#289, CLUES#245 AS CLUES#290, FOLIO#246 AS FOLIO#291, EGRESO#247 AS EGRESO#292, INGRE#248 AS INGRE#293, DIAS_ESTA#249 AS DIAS_ESTA#294, TUHPSIQ#250 AS TUHPSIQ#295, SERVHC#251 AS SERVHC#296, SERVHP#252 AS SERVHP#297, CVEEDAD#253 AS CVEEDAD#298, EDAD#254 AS EDAD#299, NACIOEN#255 AS NACIOEN#300, SEXO#256 AS SEXO#301, PESO#257 AS PESO#302, TALLA#258 AS TALLA#303, DERHAB#259 AS DERHAB#304, ENTIDAD#260 AS ENTIDAD#305, MUNIC#261 AS MUNIC#306, LOC#262 AS LOC#307, INDIGENA#263 AS INDIGENA#308, HABLA_LENGUA#264 AS HABLA_LENGUA#309, LENGUA_INDIGENA#265 AS LENGUA_INDIGENA#310, HABLA_ESP#266 AS HABLA_ESP#311, TIPSERV#267 AS TIPSERV#312, SERVICIOINGRE#268 AS SERVICIOINGRE#313, ... 20 more fields]
+:        +- Relation [ID#244,CLUES#245,FOLIO#246,EGRESO#247,INGRE#248,DIAS_ESTA#249,TUHPSIQ#250,SERVHC#251,SERVHP#252,CVEEDAD#253,EDAD#254,NACIOEN#255,SEXO#256,PESO#257,TALLA#258,DERHAB#259,ENTIDAD#260,MUNIC#261,LOC#262,INDIGENA#263,HABLA_LENGUA#264,LENGUA_INDIGENA#265,HABLA_ESP#266,TIPSERV#267,SERVICIOINGRE#268,... 20 more fields] csv
++- Project [ID#397, CLUES#398, EGRESO#400, INGRE#401, DIAS_ESTA#402L, TUHPSIQ#403, SERVHC#404, SERVHP#405, CVEEDAD#406, EDAD#407, NACIOEN#408, SEXO#409, PESO#410, TALLA#411, DERHAB#412, ENTIDAD#413, MUNIC#414, LOC#415, INDIGENA#416, HABLA_LENGUA#417, LENGUA_INDIGENA#418, HABLA_ESP#419, TIPSERV#420, SERVICIOINGRE#421, SERVICIO02#422, ... 20 more fields]
+   +- Filter StartsWith(AFECPRIN#435, I)
+      +- Project [ID#352 AS ID#397, CLUES#353 AS CLUES#398, FOLIO#354 AS FOLIO#399, EGRESO#355 AS EGRESO#400, INGRE#356 AS INGRE#401, DIAS_ESTA#357L AS DIAS_ESTA#402L, TUHPSIQ#358 AS TUHPSIQ#403, SERVHC#359 AS SERVHC#404, SERVHP#360 AS SERVHP#405, CVEEDAD#361 AS CVEEDAD#406, EDAD#362 AS EDAD#407, NACIOEN#363 AS NACIOEN#408, SEXO#364 AS SEXO#409, PESO#365 AS PESO#410, TALLA#366 AS TALLA#411, DERHAB#367 AS DERHAB#412, ENTIDAD#368 AS ENTIDAD#413, MUNIC#369 AS MUNIC#414, LOC#370 AS LOC#415, INDIGENA#371 AS INDIGENA#416, HABLA_LENGUA#372 AS HABLA_LENGUA#417, LENGUA_INDIGENA#373 AS LENGUA_INDIGENA#418, HABLA_ESP#374 AS HABLA_ESP#419, TIPSERV#375 AS TIPSERV#420, SERVICIOINGRE#376 AS SERVICIOINGRE#421, ... 20 more fields]
+         +- Relation [ID#352,CLUES#353,FOLIO#354,EGRESO#355,INGRE#356,DIAS_ESTA#357L,TUHPSIQ#358,SERVHC#359,SERVHP#360,CVEEDAD#361,EDAD#362,NACIOEN#363,SEXO#364,PESO#365,TALLA#366,DERHAB#367,ENTIDAD#368,MUNIC#369,LOC#370,INDIGENA#371,HABLA_LENGUA#372,LENGUA_INDIGENA#373,HABLA_ESP#374,TIPSERV#375,SERVICIOINGRE#376,... 20 more fields] csv
+
+2026-04-17 19:07:56,072 - INFO - spark_engine Engine off
+2026-04-17 19:07:56,090 - INFO - Closing down clientserver connection
+2026-04-17 19:14:23,997 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 19:14:43,923 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 19:15:22,579 - ERROR - Failure in Silver layer: [NUM_COLUMNS_MISMATCH] UNION can only be performed on inputs with the same number of columns, but the first input has 44 columns and the second input has 45 columns. SQLSTATE: 42826;
+'Union false, false
+:- Union false, false
+:  :- Project [cast(ID#289 as bigint) AS ID#1345L, CLUES#290, EGRESO#292, INGRE#293, cast(DIAS_ESTA#294 as bigint) AS DIAS_ESTA#1346L, TUHPSIQ#295, SERVHC#296, SERVHP#297, cast(CVEEDAD#298 as bigint) AS CVEEDAD#1347L, EDAD#299, NACIOEN#300, SEXO#301, cast(PESO#302 as double) AS PESO#1348, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, cast(HABLA_ESP#311 as bigint) AS HABLA_ESP#1349L, cast(TIPSERV#312 as bigint) AS TIPSERV#1350L, cast(SERVICIOINGRE#313 as bigint) AS SERVICIOINGRE#1351L, cast(SERVICIO02#314 as bigint) AS SERVICIO02#1352L, ... 19 more fields]
+:  :  +- Filter StartsWith(AFECPRIN#327, I)
+:  :     +- Project [ID#289, CLUES#290, EGRESO#292, INGRE#293, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, SERVICIO02#314, ... 19 more fields]
+:  :        +- Project [ID#244 AS ID#289, CLUES#245 AS CLUES#290, FOLIO#246 AS FOLIO#291, EGRESO#247 AS EGRESO#292, INGRE#248 AS INGRE#293, DIAS_ESTA#249 AS DIAS_ESTA#294, TUHPSIQ#250 AS TUHPSIQ#295, SERVHC#251 AS SERVHC#296, SERVHP#252 AS SERVHP#297, CVEEDAD#253 AS CVEEDAD#298, EDAD#254 AS EDAD#299, NACIOEN#255 AS NACIOEN#300, SEXO#256 AS SEXO#301, PESO#257 AS PESO#302, TALLA#258 AS TALLA#303, DERHAB#259 AS DERHAB#304, ENTIDAD#260 AS ENTIDAD#305, MUNIC#261 AS MUNIC#306, LOC#262 AS LOC#307, INDIGENA#263 AS INDIGENA#308, HABLA_LENGUA#264 AS HABLA_LENGUA#309, LENGUA_INDIGENA#265 AS LENGUA_INDIGENA#310, HABLA_ESP#266 AS HABLA_ESP#311, TIPSERV#267 AS TIPSERV#312, SERVICIOINGRE#268 AS SERVICIOINGRE#313, ... 20 more fields]
+:  :           +- Relation [ID#244,CLUES#245,FOLIO#246,EGRESO#247,INGRE#248,DIAS_ESTA#249,TUHPSIQ#250,SERVHC#251,SERVHP#252,CVEEDAD#253,EDAD#254,NACIOEN#255,SEXO#256,PESO#257,TALLA#258,DERHAB#259,ENTIDAD#260,MUNIC#261,LOC#262,INDIGENA#263,HABLA_LENGUA#264,LENGUA_INDIGENA#265,HABLA_ESP#266,TIPSERV#267,SERVICIOINGRE#268,... 20 more fields] csv
+:  +- Project [cast(ID#397 as bigint) AS ID#1356L, CLUES#398, cast(EGRESO#400 as timestamp) AS EGRESO#1357, cast(INGRE#401 as timestamp) AS INGRE#1358, DIAS_ESTA#402L, TUHPSIQ#403, SERVHC#404, SERVHP#405, cast(CVEEDAD#406 as bigint) AS CVEEDAD#1359L, EDAD#407, NACIOEN#408, SEXO#409, PESO#410, TALLA#411, DERHAB#412, ENTIDAD#413, MUNIC#414, LOC#415, INDIGENA#416, HABLA_LENGUA#417, LENGUA_INDIGENA#418, cast(HABLA_ESP#419 as bigint) AS HABLA_ESP#1360L, cast(TIPSERV#420 as bigint) AS TIPSERV#1361L, cast(SERVICIOINGRE#421 as bigint) AS SERVICIOINGRE#1362L, cast(SERVICIO02#422 as bigint) AS SERVICIO02#1363L, ... 19 more fields]
+:     +- Project [ID#397, CLUES#398, EGRESO#400, INGRE#401, DIAS_ESTA#402L, TUHPSIQ#403, SERVHC#404, SERVHP#405, CVEEDAD#406, EDAD#407, NACIOEN#408, SEXO#409, PESO#410, TALLA#411, DERHAB#412, ENTIDAD#413, MUNIC#414, LOC#415, INDIGENA#416, HABLA_LENGUA#417, LENGUA_INDIGENA#418, HABLA_ESP#419, TIPSERV#420, SERVICIOINGRE#421, SERVICIO02#422, ... 19 more fields]
+:        +- Filter StartsWith(AFECPRIN#435, I)
+:           +- Project [ID#397, CLUES#398, EGRESO#400, INGRE#401, DIAS_ESTA#402L, TUHPSIQ#403, SERVHC#404, SERVHP#405, CVEEDAD#406, EDAD#407, NACIOEN#408, SEXO#409, PESO#410, TALLA#411, DERHAB#412, ENTIDAD#413, MUNIC#414, LOC#415, INDIGENA#416, HABLA_LENGUA#417, LENGUA_INDIGENA#418, HABLA_ESP#419, TIPSERV#420, SERVICIOINGRE#421, SERVICIO02#422, ... 19 more fields]
+:              +- Project [ID#352 AS ID#397, CLUES#353 AS CLUES#398, FOLIO#354 AS FOLIO#399, EGRESO#355 AS EGRESO#400, INGRE#356 AS INGRE#401, DIAS_ESTA#357L AS DIAS_ESTA#402L, TUHPSIQ#358 AS TUHPSIQ#403, SERVHC#359 AS SERVHC#404, SERVHP#360 AS SERVHP#405, CVEEDAD#361 AS CVEEDAD#406, EDAD#362 AS EDAD#407, NACIOEN#363 AS NACIOEN#408, SEXO#364 AS SEXO#409, PESO#365 AS PESO#410, TALLA#366 AS TALLA#411, DERHAB#367 AS DERHAB#412, ENTIDAD#368 AS ENTIDAD#413, MUNIC#369 AS MUNIC#414, LOC#370 AS LOC#415, INDIGENA#371 AS INDIGENA#416, HABLA_LENGUA#372 AS HABLA_LENGUA#417, LENGUA_INDIGENA#373 AS LENGUA_INDIGENA#418, HABLA_ESP#374 AS HABLA_ESP#419, TIPSERV#375 AS TIPSERV#420, SERVICIOINGRE#376 AS SERVICIOINGRE#421, ... 20 more fields]
+:                 +- Relation [ID#352,CLUES#353,FOLIO#354,EGRESO#355,INGRE#356,DIAS_ESTA#357L,TUHPSIQ#358,SERVHC#359,SERVHP#360,CVEEDAD#361,EDAD#362,NACIOEN#363,SEXO#364,PESO#365,TALLA#366,DERHAB#367,ENTIDAD#368,MUNIC#369,LOC#370,INDIGENA#371,HABLA_LENGUA#372,LENGUA_INDIGENA#373,HABLA_ESP#374,TIPSERV#375,SERVICIOINGRE#376,... 20 more fields] csv
++- Project [ID#505, CLUES#506, EGRESO#507, INGRE#508, DIAS_ESTA#509, TUHPSIQ#510, SERVHC#511, SERVHP#512, CVEEDAD#513, EDAD#514, NACIOEN#515, SEXO#516, PESO#517, TALLA#518, DERHAB#519, ENTIDAD#520, MUNIC#521, LOC#522, INDIGENA#523, HABLA_LENGUA#524, LENGUA_INDIGENA#525, HABLA_ESP#526, TIPSERV#527, SERVICIOINGRE#528, SERVICIO02#529, ... 20 more fields]
+   +- Filter StartsWith(AFECPRIN#542, I)
+      +- Project [ID#460 AS ID#505, CLUES#461 AS CLUES#506, EGRESO#462 AS EGRESO#507, INGRE#463 AS INGRE#508, DIAS_ESTA#464 AS DIAS_ESTA#509, TUHPSIQ#465 AS TUHPSIQ#510, SERVHC#466 AS SERVHC#511, SERVHP#467 AS SERVHP#512, CVEEDAD#468 AS CVEEDAD#513, EDAD#469 AS EDAD#514, NACIOEN#470 AS NACIOEN#515, SEXO#471 AS SEXO#516, PESO#472 AS PESO#517, TALLA#473 AS TALLA#518, DERHAB#474 AS DERHAB#519, ENTIDAD#475 AS ENTIDAD#520, MUNIC#476 AS MUNIC#521, LOC#477 AS LOC#522, INDIGENA#478 AS INDIGENA#523, HABLA_LENGUA#479 AS HABLA_LENGUA#524, LENGUA_INDIGENA#480 AS LENGUA_INDIGENA#525, HABLA_ESP#481 AS HABLA_ESP#526, TIPSERV#482 AS TIPSERV#527, SERVICIOINGRE#483 AS SERVICIOINGRE#528, SERVICIO02#484 AS SERVICIO02#529, ... 20 more fields]
+         +- Relation [ID#460,CLUES#461,EGRESO#462,INGRE#463,DIAS_ESTA#464,TUHPSIQ#465,SERVHC#466,SERVHP#467,CVEEDAD#468,EDAD#469,NACIOEN#470,SEXO#471,PESO#472,TALLA#473,DERHAB#474,ENTIDAD#475,MUNIC#476,LOC#477,INDIGENA#478,HABLA_LENGUA#479,LENGUA_INDIGENA#480,HABLA_ESP#481,TIPSERV#482,SERVICIOINGRE#483,SERVICIO02#484,... 20 more fields] csv
+
+2026-04-17 19:15:22,819 - INFO - spark_engine Engine off
+2026-04-17 19:15:22,829 - INFO - Closing down clientserver connection
+2026-04-17 19:19:15,680 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-17 19:19:34,446 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-17 19:20:20,490 - ERROR - Failure in Silver layer: add_description() missing 1 required positional argument: 'description_col'
+2026-04-17 19:20:20,992 - INFO - spark_engine Engine off
+2026-04-17 19:20:21,003 - INFO - Closing down clientserver connection
+2026-04-20 09:41:48,181 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 09:42:12,754 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 09:43:07,620 - ERROR - Failure in Silver layer: [AMBIGUOUS_REFERENCE] Reference `NACIO_EN_HOSPITAL` is ambiguous, could be: [`NACIO_EN_HOSPITAL`, `NACIO_EN_HOSPITAL`]. SQLSTATE: 42704
+2026-04-20 09:43:08,113 - INFO - spark_engine Engine off
+2026-04-20 09:43:08,132 - INFO - Closing down clientserver connection
+2026-04-20 11:03:20,666 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 11:03:41,489 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 11:04:34,510 - ERROR - Failure in Silver layer: [CAST_INVALID_INPUT] The value '01/07/2016 00:00' of the type "STRING" cannot be cast to "TIMESTAMP" because it is malformed. Correct the value as per the syntax, or change its target type. Use `try_cast` to tolerate malformed input and return NULL instead. SQLSTATE: 22018
+2026-04-20 11:04:35,122 - INFO - spark_engine Engine off
+2026-04-20 11:04:35,134 - INFO - Closing down clientserver connection
+2026-04-20 12:07:51,887 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 12:08:10,135 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 12:08:57,349 - ERROR - Failure in Silver layer: [CAST_INVALID_INPUT] The value '01/07/2016 00:00' of the type "STRING" cannot be cast to "TIMESTAMP" because it is malformed. Correct the value as per the syntax, or change its target type. Use `try_cast` to tolerate malformed input and return NULL instead. SQLSTATE: 22018
+2026-04-20 12:08:57,863 - INFO - spark_engine Engine off
+2026-04-20 12:08:57,878 - INFO - Closing down clientserver connection
+2026-04-20 12:30:08,969 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 12:30:26,376 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 12:31:26,051 - ERROR - Failure in Silver layer: [CANNOT_PARSE_TIMESTAMP] Text '12/19/2016 00:00' could not be parsed at index 0. Use `try_to_date` to tolerate invalid input string and return NULL instead. SQLSTATE: 22007
+2026-04-20 12:31:26,748 - INFO - spark_engine Engine off
+2026-04-20 12:31:26,761 - INFO - Closing down clientserver connection
+2026-04-20 12:41:58,814 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 12:42:16,261 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 12:43:07,363 - ERROR - Failure in Silver layer: [CANNOT_PARSE_TIMESTAMP] Text '12/29/2015 00:00' could not be parsed at index 0. Use `try_to_date` to tolerate invalid input string and return NULL instead. SQLSTATE: 22007
+2026-04-20 12:43:07,747 - INFO - spark_engine Engine off
+2026-04-20 12:43:07,760 - INFO - Closing down clientserver connection
+2026-04-20 12:47:40,701 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 12:47:56,459 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 12:48:49,384 - ERROR - Failure in Silver layer: [CAST_INVALID_INPUT] The value 'GRSSA00368600000003Dec 28 2015 12:00AM' of the type "STRING" cannot be cast to "BIGINT" because it is malformed. Correct the value as per the syntax, or change its target type. Use `try_cast` to tolerate malformed input and return NULL instead. SQLSTATE: 22018
+2026-04-20 12:48:49,591 - INFO - spark_engine Engine off
+2026-04-20 12:48:49,601 - INFO - Closing down clientserver connection
+2026-04-20 13:08:41,006 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 13:08:58,251 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 13:09:19,509 - ERROR - Failure in Silver layer: [CAST_INVALID_INPUT] The value 'GRSSA00368600000003Dec 28 2015 12:00AM' of the type "STRING" cannot be cast to "INT" because it is malformed. Correct the value as per the syntax, or change its target type. Use `try_cast` to tolerate malformed input and return NULL instead. SQLSTATE: 22018
+== DataFrame ==
+"cast" was called from
+c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\02_silver_transform.py:281
+
+2026-04-20 13:09:20,199 - INFO - spark_engine Engine off
+2026-04-20 13:09:20,216 - INFO - Closing down clientserver connection
+2026-04-20 13:16:53,157 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 13:17:11,479 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 13:17:20,383 - ERROR - Failure in Silver layer: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column, variable, or function parameter with name `try_castID` cannot be resolved. Did you mean one of the following? [`ID`, `AFECPRIN`, `ANIO`, `CVEEDAD`, `EDAD`]. SQLSTATE: 42703; line 1 pos 0;
+'Project ['try_castID AS ID#3017, EGRESO#336, INGRE#338, DIAS_ESTA#294, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, ENTIDAD#305, MOTEGRE#324, AFECPRIN#327, VEZ#328, MES_ESTADISTICO#333, ANIO#3015]
++- Project [ID#289, EGRESO#336, INGRE#338, DIAS_ESTA#294, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, ENTIDAD#305, MOTEGRE#324, AFECPRIN#327, VEZ#328, MES_ESTADISTICO#333, year(EGRESO#336) AS ANIO#3015]
+   +- Project [ID#289, EGRESO#336, INGRE#338, DIAS_ESTA#294, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, ENTIDAD#305, MOTEGRE#324, AFECPRIN#327, VEZ#328, MES_ESTADISTICO#333]
+      +- Union false, false
+         :- Project [ID#289, CLUES#290, FOLIO#291, EGRESO#336, INGRE#338, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 34 more fields]
+         :  +- Union false, false
+         :     :- Project [ID#289, CLUES#290, FOLIO#291, EGRESO#336, INGRE#338, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 33 more fields]
+         :     :  +- Union false, false
+         :     :     :- Project [ID#289, CLUES#290, FOLIO#291, EGRESO#336, INGRE#338, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 22 more fields]
+         :     :     :  +- Union false, false
+         :     :     :     :- Project [ID#289, CLUES#290, FOLIO#291, EGRESO#336, INGRE#338, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 21 more fields]
+         :     :     :     :  +- Union false, false
+         :     :     :     :     :- Filter StartsWith(AFECPRIN#327, I)
+         :     :     :     :     :  +- Project [ID#289, CLUES#290, FOLIO#291, EGRESO#336, coalesce(try_to_date(INGRE#337, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#337, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#337, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#337, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#337, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#337, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#338, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 20 more fields]
+         :     :     :     :     :     +- Project [ID#289, CLUES#290, FOLIO#291, EGRESO#336, cast(INGRE#293 as string) AS INGRE#337, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 20 more fields]
+         :     :     :     :     :        +- Project [ID#289, CLUES#290, FOLIO#291, coalesce(try_to_date(EGRESO#335, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#335, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#335, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#335, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#335, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#335, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#336, INGRE#293, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 20 more fields]
+         :     :     :     :     :           +- Project [ID#289, CLUES#290, FOLIO#291, cast(EGRESO#292 as string) AS EGRESO#335, INGRE#293, DIAS_ESTA#294, TUHPSIQ#295, SERVHC#296, SERVHP#297, CVEEDAD#298, EDAD#299, NACIOEN#300, SEXO#301, PESO#302, TALLA#303, DERHAB#304, ENTIDAD#305, MUNIC#306, LOC#307, INDIGENA#308, HABLA_LENGUA#309, LENGUA_INDIGENA#310, HABLA_ESP#311, TIPSERV#312, SERVICIOINGRE#313, ... 20 more fields]
+         :     :     :     :     :              +- Project [ID#244 AS ID#289, CLUES#245 AS CLUES#290, FOLIO#246 AS FOLIO#291, EGRESO#247 AS EGRESO#292, INGRE#248 AS INGRE#293, DIAS_ESTA#249 AS DIAS_ESTA#294, TUHPSIQ#250 AS TUHPSIQ#295, SERVHC#251 AS SERVHC#296, SERVHP#252 AS SERVHP#297, CVEEDAD#253 AS CVEEDAD#298, EDAD#254 AS EDAD#299, NACIOEN#255 AS NACIOEN#300, SEXO#256 AS SEXO#301, PESO#257 AS PESO#302, TALLA#258 AS TALLA#303, DERHAB#259 AS DERHAB#304, ENTIDAD#260 AS ENTIDAD#305, MUNIC#261 AS MUNIC#306, LOC#262 AS LOC#307, INDIGENA#263 AS INDIGENA#308, HABLA_LENGUA#264 AS HABLA_LENGUA#309, LENGUA_INDIGENA#265 AS LENGUA_INDIGENA#310, HABLA_ESP#266 AS HABLA_ESP#311, TIPSERV#267 AS TIPSERV#312, SERVICIOINGRE#268 AS SERVICIOINGRE#313, ... 20 more fields]
+         :     :     :     :     :                 +- Relation [ID#244,CLUES#245,FOLIO#246,EGRESO#247,INGRE#248,DIAS_ESTA#249,TUHPSIQ#250,SERVHC#251,SERVHP#252,CVEEDAD#253,EDAD#254,NACIOEN#255,SEXO#256,PESO#257,TALLA#258,DERHAB#259,ENTIDAD#260,MUNIC#261,LOC#262,INDIGENA#263,HABLA_LENGUA#264,LENGUA_INDIGENA#265,HABLA_ESP#266,TIPSERV#267,SERVICIOINGRE#268,... 20 more fields] csv
+         :     :     :     :     +- Project [ID#401, CLUES#402, FOLIO#403, EGRESO#448, INGRE#450, DIAS_ESTA#406, TUHPSIQ#407, SERVHC#408, SERVHP#409, CVEEDAD#410, EDAD#411, NACIOEN#412, SEXO#413, PESO#414, TALLA#415, DERHAB#416, ENTIDAD#417, MUNIC#418, LOC#419, INDIGENA#420, HABLA_LENGUA#421, LENGUA_INDIGENA#422, HABLA_ESP#423, TIPSERV#424, SERVICIOINGRE#425, ... 20 more fields]
+         :     :     :     :        +- Filter StartsWith(AFECPRIN#439, I)
+         :     :     :     :           +- Project [ID#401, CLUES#402, FOLIO#403, EGRESO#448, coalesce(try_to_date(INGRE#449, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#449, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#449, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#449, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#449, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#449, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#450, DIAS_ESTA#406, TUHPSIQ#407, SERVHC#408, SERVHP#409, CVEEDAD#410, EDAD#411, NACIOEN#412, SEXO#413, PESO#414, TALLA#415, DERHAB#416, ENTIDAD#417, MUNIC#418, LOC#419, INDIGENA#420, HABLA_LENGUA#421, LENGUA_INDIGENA#422, HABLA_ESP#423, TIPSERV#424, SERVICIOINGRE#425, ... 20 more fields]
+         :     :     :     :              +- Project [ID#401, CLUES#402, FOLIO#403, EGRESO#448, cast(INGRE#405 as string) AS INGRE#449, DIAS_ESTA#406, TUHPSIQ#407, SERVHC#408, SERVHP#409, CVEEDAD#410, EDAD#411, NACIOEN#412, SEXO#413, PESO#414, TALLA#415, DERHAB#416, ENTIDAD#417, MUNIC#418, LOC#419, INDIGENA#420, HABLA_LENGUA#421, LENGUA_INDIGENA#422, HABLA_ESP#423, TIPSERV#424, SERVICIOINGRE#425, ... 20 more fields]
+         :     :     :     :                 +- Project [ID#401, CLUES#402, FOLIO#403, coalesce(try_to_date(EGRESO#447, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#447, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#447, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#447, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#447, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#447, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#448, INGRE#405, DIAS_ESTA#406, TUHPSIQ#407, SERVHC#408, SERVHP#409, CVEEDAD#410, EDAD#411, NACIOEN#412, SEXO#413, PESO#414, TALLA#415, DERHAB#416, ENTIDAD#417, MUNIC#418, LOC#419, INDIGENA#420, HABLA_LENGUA#421, LENGUA_INDIGENA#422, HABLA_ESP#423, TIPSERV#424, SERVICIOINGRE#425, ... 20 more fields]
+         :     :     :     :                    +- Project [ID#401, CLUES#402, FOLIO#403, cast(EGRESO#404 as string) AS EGRESO#447, INGRE#405, DIAS_ESTA#406, TUHPSIQ#407, SERVHC#408, SERVHP#409, CVEEDAD#410, EDAD#411, NACIOEN#412, SEXO#413, PESO#414, TALLA#415, DERHAB#416, ENTIDAD#417, MUNIC#418, LOC#419, INDIGENA#420, HABLA_LENGUA#421, LENGUA_INDIGENA#422, HABLA_ESP#423, TIPSERV#424, SERVICIOINGRE#425, ... 20 more fields]
+         :     :     :     :                       +- Project [ID#356 AS ID#401, CLUES#357 AS CLUES#402, FOLIO#358 AS FOLIO#403, EGRESO#359 AS EGRESO#404, INGRE#360 AS INGRE#405, DIAS_ESTA#361 AS DIAS_ESTA#406, TUHPSIQ#362 AS TUHPSIQ#407, SERVHC#363 AS SERVHC#408, SERVHP#364 AS SERVHP#409, CVEEDAD#365 AS CVEEDAD#410, EDAD#366 AS EDAD#411, NACIOEN#367 AS NACIOEN#412, SEXO#368 AS SEXO#413, PESO#369 AS PESO#414, TALLA#370 AS TALLA#415, DERHAB#371 AS DERHAB#416, ENTIDAD#372 AS ENTIDAD#417, MUNIC#373 AS MUNIC#418, LOC#374 AS LOC#419, INDIGENA#375 AS INDIGENA#420, HABLA_LENGUA#376 AS HABLA_LENGUA#421, LENGUA_INDIGENA#377 AS LENGUA_INDIGENA#422, HABLA_ESP#378 AS HABLA_ESP#423, TIPSERV#379 AS TIPSERV#424, SERVICIOINGRE#380 AS SERVICIOINGRE#425, ... 20 more fields]
+         :     :     :     :                          +- Relation [ID#356,CLUES#357,FOLIO#358,EGRESO#359,INGRE#360,DIAS_ESTA#361,TUHPSIQ#362,SERVHC#363,SERVHP#364,CVEEDAD#365,EDAD#366,NACIOEN#367,SEXO#368,PESO#369,TALLA#370,DERHAB#371,ENTIDAD#372,MUNIC#373,LOC#374,INDIGENA#375,HABLA_LENGUA#376,LENGUA_INDIGENA#377,HABLA_ESP#378,TIPSERV#379,SERVICIOINGRE#380,... 20 more fields] csv
+         :     :     :     +- Project [ID#513, CLUES#514, null AS FOLIO#1385, EGRESO#560, INGRE#562, DIAS_ESTA#517, TUHPSIQ#518, SERVHC#519, SERVHP#520, CVEEDAD#521, EDAD#522, NACIOEN#523, SEXO#524, PESO#525, TALLA#526, DERHAB#527, ENTIDAD#528, MUNIC#529, LOC#530, INDIGENA#531, HABLA_LENGUA#532, LENGUA_INDIGENA#533, HABLA_ESP#534, TIPSERV#535, SERVICIOINGRE#536, ... 21 more fields]
+         :     :     :        +- Filter StartsWith(AFECPRIN#550, I)
+         :     :     :           +- Project [ID#513, CLUES#514, EGRESO#560, coalesce(try_to_date(INGRE#561, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#561, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#561, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#561, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#561, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#561, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#562, DIAS_ESTA#517, TUHPSIQ#518, SERVHC#519, SERVHP#520, CVEEDAD#521, EDAD#522, NACIOEN#523, SEXO#524, PESO#525, TALLA#526, DERHAB#527, ENTIDAD#528, MUNIC#529, LOC#530, INDIGENA#531, HABLA_LENGUA#532, LENGUA_INDIGENA#533, HABLA_ESP#534, TIPSERV#535, SERVICIOINGRE#536, SERVICIO02#537, ... 20 more fields]
+         :     :     :              +- Project [ID#513, CLUES#514, EGRESO#560, cast(INGRE#516 as string) AS INGRE#561, DIAS_ESTA#517, TUHPSIQ#518, SERVHC#519, SERVHP#520, CVEEDAD#521, EDAD#522, NACIOEN#523, SEXO#524, PESO#525, TALLA#526, DERHAB#527, ENTIDAD#528, MUNIC#529, LOC#530, INDIGENA#531, HABLA_LENGUA#532, LENGUA_INDIGENA#533, HABLA_ESP#534, TIPSERV#535, SERVICIOINGRE#536, SERVICIO02#537, ... 20 more fields]
+         :     :     :                 +- Project [ID#513, CLUES#514, coalesce(try_to_date(EGRESO#559, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#559, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#559, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#559, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#559, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#559, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#560, INGRE#516, DIAS_ESTA#517, TUHPSIQ#518, SERVHC#519, SERVHP#520, CVEEDAD#521, EDAD#522, NACIOEN#523, SEXO#524, PESO#525, TALLA#526, DERHAB#527, ENTIDAD#528, MUNIC#529, LOC#530, INDIGENA#531, HABLA_LENGUA#532, LENGUA_INDIGENA#533, HABLA_ESP#534, TIPSERV#535, SERVICIOINGRE#536, SERVICIO02#537, ... 20 more fields]
+         :     :     :                    +- Project [ID#513, CLUES#514, cast(EGRESO#515 as string) AS EGRESO#559, INGRE#516, DIAS_ESTA#517, TUHPSIQ#518, SERVHC#519, SERVHP#520, CVEEDAD#521, EDAD#522, NACIOEN#523, SEXO#524, PESO#525, TALLA#526, DERHAB#527, ENTIDAD#528, MUNIC#529, LOC#530, INDIGENA#531, HABLA_LENGUA#532, LENGUA_INDIGENA#533, HABLA_ESP#534, TIPSERV#535, SERVICIOINGRE#536, SERVICIO02#537, ... 20 more fields]
+         :     :     :                       +- Project [ID#468 AS ID#513, CLUES#469 AS CLUES#514, EGRESO#470 AS EGRESO#515, INGRE#471 AS INGRE#516, DIAS_ESTA#472 AS DIAS_ESTA#517, TUHPSIQ#473 AS TUHPSIQ#518, SERVHC#474 AS SERVHC#519, SERVHP#475 AS SERVHP#520, CVEEDAD#476 AS CVEEDAD#521, EDAD#477 AS EDAD#522, NACIOEN#478 AS NACIOEN#523, SEXO#479 AS SEXO#524, PESO#480 AS PESO#525, TALLA#481 AS TALLA#526, DERHAB#482 AS DERHAB#527, ENTIDAD#483 AS ENTIDAD#528, MUNIC#484 AS MUNIC#529, LOC#485 AS LOC#530, INDIGENA#486 AS INDIGENA#531, HABLA_LENGUA#487 AS HABLA_LENGUA#532, LENGUA_INDIGENA#488 AS LENGUA_INDIGENA#533, HABLA_ESP#489 AS HABLA_ESP#534, TIPSERV#490 AS TIPSERV#535, SERVICIOINGRE#491 AS SERVICIOINGRE#536, SERVICIO02#492 AS SERVICIO02#537, ... 20 more fields]
+         :     :     :                          +- Relation [ID#468,CLUES#469,EGRESO#470,INGRE#471,DIAS_ESTA#472,TUHPSIQ#473,SERVHC#474,SERVHP#475,CVEEDAD#476,EDAD#477,NACIOEN#478,SEXO#479,PESO#480,TALLA#481,DERHAB#482,ENTIDAD#483,MUNIC#484,LOC#485,INDIGENA#486,HABLA_LENGUA#487,LENGUA_INDIGENA#488,HABLA_ESP#489,TIPSERV#490,SERVICIOINGRE#491,SERVICIO02#492,... 20 more fields] csv
+         :     :     +- Project [ID#619, CLUES#620, null AS FOLIO#1387, EGRESO#660, INGRE#662, DIAS_ESTA#623, TUHPSIQ#624, SERVHC#625, SERVHP#626, CVEEDAD#627, EDAD#628, NACIOEN#629, SEXO#630, PESO#631, TALLA#632, DERHAB#633, ENTIDAD#634, MUNIC#635, LOC#636, INDIGENA#637, HABLA_LENGUA#638, LENGUA_INDIGENA#639, HABLA_ESP#640, TIPSERV#641, SERVICIOINGRE#642, ... 22 more fields]
+         :     :        +- Filter StartsWith(AFECPRIN#651, I)
+         :     :           +- Project [ID#619, CLUES#620, EGRESO#660, coalesce(try_to_date(INGRE#661, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#661, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#661, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#661, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#661, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#661, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#662, DIAS_ESTA#623, TUHPSIQ#624, SERVHC#625, SERVHP#626, CVEEDAD#627, EDAD#628, NACIOEN#629, SEXO#630, PESO#631, TALLA#632, DERHAB#633, ENTIDAD#634, MUNIC#635, LOC#636, INDIGENA#637, HABLA_LENGUA#638, LENGUA_INDIGENA#639, HABLA_ESP#640, TIPSERV#641, SERVICIOINGRE#642, SERVICIO02#643, ... 14 more fields]
+         :     :              +- Project [ID#619, CLUES#620, EGRESO#660, cast(INGRE#622 as string) AS INGRE#661, DIAS_ESTA#623, TUHPSIQ#624, SERVHC#625, SERVHP#626, CVEEDAD#627, EDAD#628, NACIOEN#629, SEXO#630, PESO#631, TALLA#632, DERHAB#633, ENTIDAD#634, MUNIC#635, LOC#636, INDIGENA#637, HABLA_LENGUA#638, LENGUA_INDIGENA#639, HABLA_ESP#640, TIPSERV#641, SERVICIOINGRE#642, SERVICIO02#643, ... 14 more fields]
+         :     :                 +- Project [ID#619, CLUES#620, coalesce(try_to_date(EGRESO#659, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#659, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#659, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#659, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#659, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#659, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#660, INGRE#622, DIAS_ESTA#623, TUHPSIQ#624, SERVHC#625, SERVHP#626, CVEEDAD#627, EDAD#628, NACIOEN#629, SEXO#630, PESO#631, TALLA#632, DERHAB#633, ENTIDAD#634, MUNIC#635, LOC#636, INDIGENA#637, HABLA_LENGUA#638, LENGUA_INDIGENA#639, HABLA_ESP#640, TIPSERV#641, SERVICIOINGRE#642, SERVICIO02#643, ... 14 more fields]
+         :     :                    +- Project [ID#619, CLUES#620, cast(EGRESO#621 as string) AS EGRESO#659, INGRE#622, DIAS_ESTA#623, TUHPSIQ#624, SERVHC#625, SERVHP#626, CVEEDAD#627, EDAD#628, NACIOEN#629, SEXO#630, PESO#631, TALLA#632, DERHAB#633, ENTIDAD#634, MUNIC#635, LOC#636, INDIGENA#637, HABLA_LENGUA#638, LENGUA_INDIGENA#639, HABLA_ESP#640, TIPSERV#641, SERVICIOINGRE#642, SERVICIO02#643, ... 14 more fields]
+         :     :                       +- Project [ID#580 AS ID#619, CLUES#581 AS CLUES#620, EGRESO#582 AS EGRESO#621, INGRE#583 AS INGRE#622, DIAS_ESTA#584 AS DIAS_ESTA#623, TUHPSIQ#585 AS TUHPSIQ#624, SERVHC#586 AS SERVHC#625, SERVHP#587 AS SERVHP#626, CVEEDAD#588 AS CVEEDAD#627, EDAD#589 AS EDAD#628, NACIOEN#590 AS NACIOEN#629, SEXO#591 AS SEXO#630, PESO#592 AS PESO#631, TALLA#593 AS TALLA#632, DERHAB#594 AS DERHAB#633, ENTIDAD#595 AS ENTIDAD#634, MUNIC#596 AS MUNIC#635, LOC#597 AS LOC#636, INDIGENA#598 AS INDIGENA#637, HABLA_LENGUA#599 AS HABLA_LENGUA#638, LENGUA_INDIGENA#600 AS LENGUA_INDIGENA#639, HABLA_ESP#601 AS HABLA_ESP#640, TIPSERV#602 AS TIPSERV#641, SERVICIOINGRE#603 AS SERVICIOINGRE#642, SERVICIO02#604 AS SERVICIO02#643, ... 14 more fields]
+         :     :                          +- Relation [ID#580,CLUES#581,EGRESO#582,INGRE#583,DIAS_ESTA#584,TUHPSIQ#585,SERVHC#586,SERVHP#587,CVEEDAD#588,EDAD#589,NACIOEN#590,SEXO#591,PESO#592,TALLA#593,DERHAB#594,ENTIDAD#595,MUNIC#596,LOC#597,INDIGENA#598,HABLA_LENGUA#599,LENGUA_INDIGENA#600,HABLA_ESP#601,TIPSERV#602,SERVICIOINGRE#603,SERVICIO02#604,... 14 more fields] csv
+         :     :- Project [ID#729, CLUES#730, null AS FOLIO#1396, EGRESO#780, INGRE#782, DIAS_ESTA#733, TUHPSIQ#734, SERVHC#735, SERVHP#736, CVEEDAD#737, EDAD#738, NACIOEN#739, SEXO#740, PESO#741, TALLA#742, DERHAB#743, ENTIDAD#744, MUNIC#745, LOC#746, INDIGENA#747, HABLA_LENGUA#748, LENGUA_INDIGENA#749, null AS HABLA_ESP#1397, TIPSERV#750, SERVICIOINGRE#751, ... 33 more fields]
+         :     :  +- Filter StartsWith(AFECPRIN#760, I)
+         :     :     +- Project [ID#729, CLUES#730, EGRESO#780, coalesce(try_to_date(INGRE#781, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#781, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#781, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#781, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#781, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#781, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#782, DIAS_ESTA#733, TUHPSIQ#734, SERVHC#735, SERVHP#736, CVEEDAD#737, EDAD#738, NACIOEN#739, SEXO#740, PESO#741, TALLA#742, DERHAB#743, ENTIDAD#744, MUNIC#745, LOC#746, INDIGENA#747, HABLA_LENGUA#748, LENGUA_INDIGENA#749, TIPSERV#750, SERVICIOINGRE#751, SERVICIO02#752, SERVICIO03#753, ... 24 more fields]
+         :     :        +- Project [ID#729, CLUES#730, EGRESO#780, cast(INGRE#732 as string) AS INGRE#781, DIAS_ESTA#733, TUHPSIQ#734, SERVHC#735, SERVHP#736, CVEEDAD#737, EDAD#738, NACIOEN#739, SEXO#740, PESO#741, TALLA#742, DERHAB#743, ENTIDAD#744, MUNIC#745, LOC#746, INDIGENA#747, HABLA_LENGUA#748, LENGUA_INDIGENA#749, TIPSERV#750, SERVICIOINGRE#751, SERVICIO02#752, SERVICIO03#753, ... 24 more fields]
+         :     :           +- Project [ID#729, CLUES#730, coalesce(try_to_date(EGRESO#779, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#779, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#779, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#779, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#779, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#779, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#780, INGRE#732, DIAS_ESTA#733, TUHPSIQ#734, SERVHC#735, SERVHP#736, CVEEDAD#737, EDAD#738, NACIOEN#739, SEXO#740, PESO#741, TALLA#742, DERHAB#743, ENTIDAD#744, MUNIC#745, LOC#746, INDIGENA#747, HABLA_LENGUA#748, LENGUA_INDIGENA#749, TIPSERV#750, SERVICIOINGRE#751, SERVICIO02#752, SERVICIO03#753, ... 24 more fields]
+         :     :              +- Project [ID#729, CLUES#730, cast(EGRESO#731 as string) AS EGRESO#779, INGRE#732, DIAS_ESTA#733, TUHPSIQ#734, SERVHC#735, SERVHP#736, CVEEDAD#737, EDAD#738, NACIOEN#739, SEXO#740, PESO#741, TALLA#742, DERHAB#743, ENTIDAD#744, MUNIC#745, LOC#746, INDIGENA#747, HABLA_LENGUA#748, LENGUA_INDIGENA#749, TIPSERV#750, SERVICIOINGRE#751, SERVICIO02#752, SERVICIO03#753, ... 24 more fields]
+         :     :                 +- Project [ID#680 AS ID#729, CLUES#681 AS CLUES#730, EGRESO#682 AS EGRESO#731, INGRE#683 AS INGRE#732, DIAS_ESTA#684 AS DIAS_ESTA#733, TUHPSIQ#685 AS TUHPSIQ#734, SERVHC#686 AS SERVHC#735, SERVHP#687 AS SERVHP#736, CVEEDAD#688 AS CVEEDAD#737, EDAD#689 AS EDAD#738, NACIOEN#690 AS NACIOEN#739, SEXO#691 AS SEXO#740, PESO#692 AS PESO#741, TALLA#693 AS TALLA#742, DERHAB#694 AS DERHAB#743, ENTIDAD#695 AS ENTIDAD#744, MUNIC#696 AS MUNIC#745, LOC#697 AS LOC#746, INDIGENA#698 AS INDIGENA#747, HABLA_LENGUA#699 AS HABLA_LENGUA#748, LENGUA_INDIGENA#700 AS LENGUA_INDIGENA#749, TIPSERV#701 AS TIPSERV#750, SERVICIOINGRE#702 AS SERVICIOINGRE#751, SERVICIO02#703 AS SERVICIO02#752, SERVICIO03#704 AS SERVICIO03#753, ... 24 more fields]
+         :     :                    +- Relation [ID#680,CLUES#681,EGRESO#682,INGRE#683,DIAS_ESTA#684,TUHPSIQ#685,SERVHC#686,SERVHP#687,CVEEDAD#688,EDAD#689,NACIOEN#690,SEXO#691,PESO#692,TALLA#693,DERHAB#694,ENTIDAD#695,MUNIC#696,LOC#697,INDIGENA#698,HABLA_LENGUA#699,LENGUA_INDIGENA#700,TIPSERV#701,SERVICIOINGRE#702,SERVICIO02#703,SERVICIO03#704,... 24 more fields] csv
+         :     :- Project [ID#849, CLUES#850, null AS FOLIO#1416, EGRESO#900, INGRE#902, DIAS_ESTA#853, TUHPSIQ#854, SERVHC#855, SERVHP#856, CVEEDAD#857, EDAD#858, NACIOEN#859, SEXO#860, PESO#861, TALLA#862, DERHAB#863, ENTIDAD#864, MUNIC#865, LOC#866, INDIGENA#867, HABLA_LENGUA#868, LENGUA_INDIGENA#869, null AS HABLA_ESP#1417, TIPSERV#870, SERVICIOINGRE#871, ... 33 more fields]
+         :     :  +- Filter StartsWith(AFECPRIN#880, I)
+         :     :     +- Project [ID#849, CLUES#850, EGRESO#900, coalesce(try_to_date(INGRE#901, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#901, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#901, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#901, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#901, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#901, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#902, DIAS_ESTA#853, TUHPSIQ#854, SERVHC#855, SERVHP#856, CVEEDAD#857, EDAD#858, NACIOEN#859, SEXO#860, PESO#861, TALLA#862, DERHAB#863, ENTIDAD#864, MUNIC#865, LOC#866, INDIGENA#867, HABLA_LENGUA#868, LENGUA_INDIGENA#869, TIPSERV#870, SERVICIOINGRE#871, SERVICIO02#872, SERVICIO03#873, ... 24 more fields]
+         :     :        +- Project [ID#849, CLUES#850, EGRESO#900, cast(INGRE#852 as string) AS INGRE#901, DIAS_ESTA#853, TUHPSIQ#854, SERVHC#855, SERVHP#856, CVEEDAD#857, EDAD#858, NACIOEN#859, SEXO#860, PESO#861, TALLA#862, DERHAB#863, ENTIDAD#864, MUNIC#865, LOC#866, INDIGENA#867, HABLA_LENGUA#868, LENGUA_INDIGENA#869, TIPSERV#870, SERVICIOINGRE#871, SERVICIO02#872, SERVICIO03#873, ... 24 more fields]
+         :     :           +- Project [ID#849, CLUES#850, coalesce(try_to_date(EGRESO#899, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#899, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#899, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#899, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#899, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#899, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#900, INGRE#852, DIAS_ESTA#853, TUHPSIQ#854, SERVHC#855, SERVHP#856, CVEEDAD#857, EDAD#858, NACIOEN#859, SEXO#860, PESO#861, TALLA#862, DERHAB#863, ENTIDAD#864, MUNIC#865, LOC#866, INDIGENA#867, HABLA_LENGUA#868, LENGUA_INDIGENA#869, TIPSERV#870, SERVICIOINGRE#871, SERVICIO02#872, SERVICIO03#873, ... 24 more fields]
+         :     :              +- Project [ID#849, CLUES#850, cast(EGRESO#851 as string) AS EGRESO#899, INGRE#852, DIAS_ESTA#853, TUHPSIQ#854, SERVHC#855, SERVHP#856, CVEEDAD#857, EDAD#858, NACIOEN#859, SEXO#860, PESO#861, TALLA#862, DERHAB#863, ENTIDAD#864, MUNIC#865, LOC#866, INDIGENA#867, HABLA_LENGUA#868, LENGUA_INDIGENA#869, TIPSERV#870, SERVICIOINGRE#871, SERVICIO02#872, SERVICIO03#873, ... 24 more fields]
+         :     :                 +- Project [ID#800 AS ID#849, CLUES#801 AS CLUES#850, EGRESO#802 AS EGRESO#851, INGRE#803 AS INGRE#852, DIAS_ESTA#804 AS DIAS_ESTA#853, TUHPSIQ#805 AS TUHPSIQ#854, SERVHC#806 AS SERVHC#855, SERVHP#807 AS SERVHP#856, CVEEDAD#808 AS CVEEDAD#857, EDAD#809 AS EDAD#858, NACIOEN#810 AS NACIOEN#859, SEXO#811 AS SEXO#860, PESO#812 AS PESO#861, TALLA#813 AS TALLA#862, DERHAB#814 AS DERHAB#863, ENTIDAD#815 AS ENTIDAD#864, MUNIC#816 AS MUNIC#865, LOC#817 AS LOC#866, INDIGENA#818 AS INDIGENA#867, HABLA_LENGUA#819 AS HABLA_LENGUA#868, LENGUA_INDIGENA#820 AS LENGUA_INDIGENA#869, TIPSERV#821 AS TIPSERV#870, SERVICIOINGRE#822 AS SERVICIOINGRE#871, SERVICIO02#823 AS SERVICIO02#872, SERVICIO03#824 AS SERVICIO03#873, ... 24 more fields]
+         :     :                    +- Relation [ID#800,CLUES#801,EGRESO#802,INGRE#803,DIAS_ESTA#804,TUHPSIQ#805,SERVHC#806,SERVHP#807,CVEEDAD#808,EDAD#809,NACIOEN#810,SEXO#811,PESO#812,TALLA#813,DERHAB#814,ENTIDAD#815,MUNIC#816,LOC#817,INDIGENA#818,HABLA_LENGUA#819,LENGUA_INDIGENA#820,TIPSERV#821,SERVICIOINGRE#822,SERVICIO02#823,SERVICIO03#824,... 24 more fields] csv
+         :     :- Project [ID#969, CLUES#970, null AS FOLIO#1425, EGRESO#1020, INGRE#1022, DIAS_ESTA#973, TUHPSIQ#974, SERVHC#975, SERVHP#976, CVEEDAD#977, EDAD#978, NACIOEN#979, SEXO#980, PESO#981, TALLA#982, DERHAB#983, ENTIDAD#984, MUNIC#985, LOC#986, INDIGENA#987, HABLA_LENGUA#988, LENGUA_INDIGENA#989, null AS HABLA_ESP#1426, TIPSERV#990, SERVICIOINGRE#991, ... 33 more fields]
+         :     :  +- Filter StartsWith(AFECPRIN#1000, I)
+         :     :     +- Project [ID#969, CLUES#970, EGRESO#1020, coalesce(try_to_date(INGRE#1021, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#1021, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#1021, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#1021, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#1021, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#1021, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#1022, DIAS_ESTA#973, TUHPSIQ#974, SERVHC#975, SERVHP#976, CVEEDAD#977, EDAD#978, NACIOEN#979, SEXO#980, PESO#981, TALLA#982, DERHAB#983, ENTIDAD#984, MUNIC#985, LOC#986, INDIGENA#987, HABLA_LENGUA#988, LENGUA_INDIGENA#989, TIPSERV#990, SERVICIOINGRE#991, SERVICIO02#992, SERVICIO03#993, ... 24 more fields]
+         :     :        +- Project [ID#969, CLUES#970, EGRESO#1020, cast(INGRE#972 as string) AS INGRE#1021, DIAS_ESTA#973, TUHPSIQ#974, SERVHC#975, SERVHP#976, CVEEDAD#977, EDAD#978, NACIOEN#979, SEXO#980, PESO#981, TALLA#982, DERHAB#983, ENTIDAD#984, MUNIC#985, LOC#986, INDIGENA#987, HABLA_LENGUA#988, LENGUA_INDIGENA#989, TIPSERV#990, SERVICIOINGRE#991, SERVICIO02#992, SERVICIO03#993, ... 24 more fields]
+         :     :           +- Project [ID#969, CLUES#970, coalesce(try_to_date(EGRESO#1019, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#1019, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#1019, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#1019, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#1019, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#1019, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#1020, INGRE#972, DIAS_ESTA#973, TUHPSIQ#974, SERVHC#975, SERVHP#976, CVEEDAD#977, EDAD#978, NACIOEN#979, SEXO#980, PESO#981, TALLA#982, DERHAB#983, ENTIDAD#984, MUNIC#985, LOC#986, INDIGENA#987, HABLA_LENGUA#988, LENGUA_INDIGENA#989, TIPSERV#990, SERVICIOINGRE#991, SERVICIO02#992, SERVICIO03#993, ... 24 more fields]
+         :     :              +- Project [ID#969, CLUES#970, cast(EGRESO#971 as string) AS EGRESO#1019, INGRE#972, DIAS_ESTA#973, TUHPSIQ#974, SERVHC#975, SERVHP#976, CVEEDAD#977, EDAD#978, NACIOEN#979, SEXO#980, PESO#981, TALLA#982, DERHAB#983, ENTIDAD#984, MUNIC#985, LOC#986, INDIGENA#987, HABLA_LENGUA#988, LENGUA_INDIGENA#989, TIPSERV#990, SERVICIOINGRE#991, SERVICIO02#992, SERVICIO03#993, ... 24 more fields]
+         :     :                 +- Project [ID#920 AS ID#969, CLUES#921 AS CLUES#970, EGRESO#922 AS EGRESO#971, INGRE#923 AS INGRE#972, DIAS_ESTA#924 AS DIAS_ESTA#973, TUHPSIQ#925 AS TUHPSIQ#974, SERVHC#926 AS SERVHC#975, SERVHP#927 AS SERVHP#976, CVEEDAD#928 AS CVEEDAD#977, EDAD#929 AS EDAD#978, NACIOEN#930 AS NACIOEN#979, SEXO#931 AS SEXO#980, PESO#932 AS PESO#981, TALLA#933 AS TALLA#982, DERHAB#934 AS DERHAB#983, ENTIDAD#935 AS ENTIDAD#984, MUNIC#936 AS MUNIC#985, LOC#937 AS LOC#986, INDIGENA#938 AS INDIGENA#987, HABLA_LENGUA#939 AS HABLA_LENGUA#988, LENGUA_INDIGENA#940 AS LENGUA_INDIGENA#989, TIPSERV#941 AS TIPSERV#990, SERVICIOINGRE#942 AS SERVICIOINGRE#991, SERVICIO02#943 AS SERVICIO02#992, SERVICIO03#944 AS SERVICIO03#993, ... 24 more fields]
+         :     :                    +- Relation [ID#920,CLUES#921,EGRESO#922,INGRE#923,DIAS_ESTA#924,TUHPSIQ#925,SERVHC#926,SERVHP#927,CVEEDAD#928,EDAD#929,NACIOEN#930,SEXO#931,PESO#932,TALLA#933,DERHAB#934,ENTIDAD#935,MUNIC#936,LOC#937,INDIGENA#938,HABLA_LENGUA#939,LENGUA_INDIGENA#940,TIPSERV#941,SERVICIOINGRE#942,SERVICIO02#943,SERVICIO03#944,... 24 more fields] csv
+         :     :- Project [ID#1089, CLUES#1090, null AS FOLIO#1434, EGRESO#1140, INGRE#1142, DIAS_ESTA#1093, TUHPSIQ#1094, SERVHC#1095, SERVHP#1096, CVEEDAD#1097, EDAD#1098, NACIOEN#1099, SEXO#1100, PESO#1101, TALLA#1102, DERHAB#1103, ENTIDAD#1104, MUNIC#1105, LOC#1106, INDIGENA#1107, HABLA_LENGUA#1108, LENGUA_INDIGENA#1109, null AS HABLA_ESP#1435, TIPSERV#1110, SERVICIOINGRE#1111, ... 33 more fields]
+         :     :  +- Filter StartsWith(AFECPRIN#1120, I)
+         :     :     +- Project [ID#1089, CLUES#1090, EGRESO#1140, coalesce(try_to_date(INGRE#1141, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#1141, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#1141, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#1141, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#1141, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#1141, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#1142, DIAS_ESTA#1093, TUHPSIQ#1094, SERVHC#1095, SERVHP#1096, CVEEDAD#1097, EDAD#1098, NACIOEN#1099, SEXO#1100, PESO#1101, TALLA#1102, DERHAB#1103, ENTIDAD#1104, MUNIC#1105, LOC#1106, INDIGENA#1107, HABLA_LENGUA#1108, LENGUA_INDIGENA#1109, TIPSERV#1110, SERVICIOINGRE#1111, SERVICIO02#1112, SERVICIO03#1113, ... 24 more fields]
+         :     :        +- Project [ID#1089, CLUES#1090, EGRESO#1140, cast(INGRE#1092 as string) AS INGRE#1141, DIAS_ESTA#1093, TUHPSIQ#1094, SERVHC#1095, SERVHP#1096, CVEEDAD#1097, EDAD#1098, NACIOEN#1099, SEXO#1100, PESO#1101, TALLA#1102, DERHAB#1103, ENTIDAD#1104, MUNIC#1105, LOC#1106, INDIGENA#1107, HABLA_LENGUA#1108, LENGUA_INDIGENA#1109, TIPSERV#1110, SERVICIOINGRE#1111, SERVICIO02#1112, SERVICIO03#1113, ... 24 more fields]
+         :     :           +- Project [ID#1089, CLUES#1090, coalesce(try_to_date(EGRESO#1139, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#1139, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#1139, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#1139, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#1139, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#1139, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#1140, INGRE#1092, DIAS_ESTA#1093, TUHPSIQ#1094, SERVHC#1095, SERVHP#1096, CVEEDAD#1097, EDAD#1098, NACIOEN#1099, SEXO#1100, PESO#1101, TALLA#1102, DERHAB#1103, ENTIDAD#1104, MUNIC#1105, LOC#1106, INDIGENA#1107, HABLA_LENGUA#1108, LENGUA_INDIGENA#1109, TIPSERV#1110, SERVICIOINGRE#1111, SERVICIO02#1112, SERVICIO03#1113, ... 24 more fields]
+         :     :              +- Project [ID#1089, CLUES#1090, cast(EGRESO#1091 as string) AS EGRESO#1139, INGRE#1092, DIAS_ESTA#1093, TUHPSIQ#1094, SERVHC#1095, SERVHP#1096, CVEEDAD#1097, EDAD#1098, NACIOEN#1099, SEXO#1100, PESO#1101, TALLA#1102, DERHAB#1103, ENTIDAD#1104, MUNIC#1105, LOC#1106, INDIGENA#1107, HABLA_LENGUA#1108, LENGUA_INDIGENA#1109, TIPSERV#1110, SERVICIOINGRE#1111, SERVICIO02#1112, SERVICIO03#1113, ... 24 more fields]
+         :     :                 +- Project [ID#1040 AS ID#1089, CLUES#1041 AS CLUES#1090, EGRESO#1042 AS EGRESO#1091, INGRE#1043 AS INGRE#1092, DIAS_ESTA#1044 AS DIAS_ESTA#1093, TUHPSIQ#1045 AS TUHPSIQ#1094, SERVHC#1046 AS SERVHC#1095, SERVHP#1047 AS SERVHP#1096, CVEEDAD#1048 AS CVEEDAD#1097, EDAD#1049 AS EDAD#1098, NACIOEN#1050 AS NACIOEN#1099, SEXO#1051 AS SEXO#1100, PESO#1052 AS PESO#1101, TALLA#1053 AS TALLA#1102, DERHAB#1054 AS DERHAB#1103, ENTIDAD#1055 AS ENTIDAD#1104, MUNIC#1056 AS MUNIC#1105, LOC#1057 AS LOC#1106, INDIGENA#1058 AS INDIGENA#1107, HABLA_LENGUA#1059 AS HABLA_LENGUA#1108, LENGUA_INDIGENA#1060 AS LENGUA_INDIGENA#1109, TIPSERV#1061 AS TIPSERV#1110, SERVICIOINGRE#1062 AS SERVICIOINGRE#1111, SERVICIO02#1063 AS SERVICIO02#1112, SERVICIO03#1064 AS SERVICIO03#1113, ... 24 more fields]
+         :     :                    +- Relation [ID#1040,CLUES#1041,EGRESO#1042,INGRE#1043,DIAS_ESTA#1044,TUHPSIQ#1045,SERVHC#1046,SERVHP#1047,CVEEDAD#1048,EDAD#1049,NACIOEN#1050,SEXO#1051,PESO#1052,TALLA#1053,DERHAB#1054,ENTIDAD#1055,MUNIC#1056,LOC#1057,INDIGENA#1058,HABLA_LENGUA#1059,LENGUA_INDIGENA#1060,TIPSERV#1061,SERVICIOINGRE#1062,SERVICIO02#1063,SERVICIO03#1064,... 24 more fields] csv
+         :     +- Project [ID#1209, CLUES#1210, null AS FOLIO#1443, EGRESO#1260, INGRE#1262, DIAS_ESTA#1213, TUHPSIQ#1214, SERVHC#1215, SERVHP#1216, CVEEDAD#1217, EDAD#1218, NACIOEN#1219, SEXO#1220, PESO#1221, TALLA#1222, DERHAB#1223, ENTIDAD#1224, MUNIC#1225, LOC#1226, INDIGENA#1227, HABLA_LENGUA#1228, LENGUA_INDIGENA#1229, null AS HABLA_ESP#1444, TIPSERV#1230, SERVICIOINGRE#1231, ... 33 more fields]
+         :        +- Filter StartsWith(AFECPRIN#1240, I)
+         :           +- Project [ID#1209, CLUES#1210, EGRESO#1260, coalesce(try_to_date(INGRE#1261, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#1261, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#1261, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#1261, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#1261, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#1261, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#1262, DIAS_ESTA#1213, TUHPSIQ#1214, SERVHC#1215, SERVHP#1216, CVEEDAD#1217, EDAD#1218, NACIOEN#1219, SEXO#1220, PESO#1221, TALLA#1222, DERHAB#1223, ENTIDAD#1224, MUNIC#1225, LOC#1226, INDIGENA#1227, HABLA_LENGUA#1228, LENGUA_INDIGENA#1229, TIPSERV#1230, SERVICIOINGRE#1231, SERVICIO02#1232, SERVICIO03#1233, ... 24 more fields]
+         :              +- Project [ID#1209, CLUES#1210, EGRESO#1260, cast(INGRE#1212 as string) AS INGRE#1261, DIAS_ESTA#1213, TUHPSIQ#1214, SERVHC#1215, SERVHP#1216, CVEEDAD#1217, EDAD#1218, NACIOEN#1219, SEXO#1220, PESO#1221, TALLA#1222, DERHAB#1223, ENTIDAD#1224, MUNIC#1225, LOC#1226, INDIGENA#1227, HABLA_LENGUA#1228, LENGUA_INDIGENA#1229, TIPSERV#1230, SERVICIOINGRE#1231, SERVICIO02#1232, SERVICIO03#1233, ... 24 more fields]
+         :                 +- Project [ID#1209, CLUES#1210, coalesce(try_to_date(EGRESO#1259, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#1259, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#1259, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#1259, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#1259, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#1259, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#1260, INGRE#1212, DIAS_ESTA#1213, TUHPSIQ#1214, SERVHC#1215, SERVHP#1216, CVEEDAD#1217, EDAD#1218, NACIOEN#1219, SEXO#1220, PESO#1221, TALLA#1222, DERHAB#1223, ENTIDAD#1224, MUNIC#1225, LOC#1226, INDIGENA#1227, HABLA_LENGUA#1228, LENGUA_INDIGENA#1229, TIPSERV#1230, SERVICIOINGRE#1231, SERVICIO02#1232, SERVICIO03#1233, ... 24 more fields]
+         :                    +- Project [ID#1209, CLUES#1210, cast(EGRESO#1211 as string) AS EGRESO#1259, INGRE#1212, DIAS_ESTA#1213, TUHPSIQ#1214, SERVHC#1215, SERVHP#1216, CVEEDAD#1217, EDAD#1218, NACIOEN#1219, SEXO#1220, PESO#1221, TALLA#1222, DERHAB#1223, ENTIDAD#1224, MUNIC#1225, LOC#1226, INDIGENA#1227, HABLA_LENGUA#1228, LENGUA_INDIGENA#1229, TIPSERV#1230, SERVICIOINGRE#1231, SERVICIO02#1232, SERVICIO03#1233, ... 24 more fields]
+         :                       +- Project [ID#1160 AS ID#1209, CLUES#1161 AS CLUES#1210, EGRESO#1162 AS EGRESO#1211, INGRE#1163 AS INGRE#1212, DIAS_ESTA#1164 AS DIAS_ESTA#1213, TUHPSIQ#1165 AS TUHPSIQ#1214, SERVHC#1166 AS SERVHC#1215, SERVHP#1167 AS SERVHP#1216, CVEEDAD#1168 AS CVEEDAD#1217, EDAD#1169 AS EDAD#1218, NACIOEN#1170 AS NACIOEN#1219, SEXO#1171 AS SEXO#1220, PESO#1172 AS PESO#1221, TALLA#1173 AS TALLA#1222, DERHAB#1174 AS DERHAB#1223, ENTIDAD#1175 AS ENTIDAD#1224, MUNIC#1176 AS MUNIC#1225, LOC#1177 AS LOC#1226, INDIGENA#1178 AS INDIGENA#1227, HABLA_LENGUA#1179 AS HABLA_LENGUA#1228, LENGUA_INDIGENA#1180 AS LENGUA_INDIGENA#1229, TIPSERV#1181 AS TIPSERV#1230, SERVICIOINGRE#1182 AS SERVICIOINGRE#1231, SERVICIO02#1183 AS SERVICIO02#1232, SERVICIO03#1184 AS SERVICIO03#1233, ... 24 more fields]
+         :                          +- Relation [ID#1160,CLUES#1161,EGRESO#1162,INGRE#1163,DIAS_ESTA#1164,TUHPSIQ#1165,SERVHC#1166,SERVHP#1167,CVEEDAD#1168,EDAD#1169,NACIOEN#1170,SEXO#1171,PESO#1172,TALLA#1173,DERHAB#1174,ENTIDAD#1175,MUNIC#1176,LOC#1177,INDIGENA#1178,HABLA_LENGUA#1179,LENGUA_INDIGENA#1180,TIPSERV#1181,SERVICIOINGRE#1182,SERVICIO02#1183,SERVICIO03#1184,... 24 more fields] csv
+         +- Project [ID#1330, CLUES#1331, null AS FOLIO#1452, EGRESO#1382, INGRE#1384, DIAS_ESTA#1334, TUHPSIQ#1335, SERVHC#1336, SERVHP#1337, CVEEDAD#1338, EDAD#1339, NACIOEN#1340, SEXO#1341, PESO#1342, TALLA#1343, DERHAB#1344, ENTIDAD#1345, MUNIC#1346, LOC#1347, INDIGENA#1348, HABLA_LENGUA#1349, LENGUA_INDIGENA#1350, null AS HABLA_ESP#1453, TIPSERV#1351, SERVICIOINGRE#1352, ... 34 more fields]
+            +- Filter StartsWith(AFECPRIN#1361, I)
+               +- Project [ID#1330, CLUES#1331, EGRESO#1382, coalesce(try_to_date(INGRE#1383, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(INGRE#1383, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(INGRE#1383, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#1383, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(INGRE#1383, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(INGRE#1383, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS INGRE#1384, DIAS_ESTA#1334, TUHPSIQ#1335, SERVHC#1336, SERVHP#1337, CVEEDAD#1338, EDAD#1339, NACIOEN#1340, SEXO#1341, PESO#1342, TALLA#1343, DERHAB#1344, ENTIDAD#1345, MUNIC#1346, LOC#1347, INDIGENA#1348, HABLA_LENGUA#1349, LENGUA_INDIGENA#1350, TIPSERV#1351, SERVICIOINGRE#1352, SERVICIO02#1353, SERVICIO03#1354, ... 25 more fields]
+                  +- Project [ID#1330, CLUES#1331, EGRESO#1382, cast(INGRE#1333 as string) AS INGRE#1383, DIAS_ESTA#1334, TUHPSIQ#1335, SERVHC#1336, SERVHP#1337, CVEEDAD#1338, EDAD#1339, NACIOEN#1340, SEXO#1341, PESO#1342, TALLA#1343, DERHAB#1344, ENTIDAD#1345, MUNIC#1346, LOC#1347, INDIGENA#1348, HABLA_LENGUA#1349, LENGUA_INDIGENA#1350, TIPSERV#1351, SERVICIOINGRE#1352, SERVICIO02#1353, SERVICIO03#1354, ... 25 more fields]
+                     +- Project [ID#1330, CLUES#1331, coalesce(try_to_date(EGRESO#1381, Some(yyyy-MM-dd HH:mm:ss), Some(America/Mexico_City), false), try_to_date(EGRESO#1381, Some(yyyy-MM-dd), Some(America/Mexico_City), false), try_to_date(EGRESO#1381, Some(dd/MM/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#1381, Some(dd/MM/yyyy), Some(America/Mexico_City), false), try_to_date(EGRESO#1381, Some(MM/dd/yyyy HH:mm), Some(America/Mexico_City), false), try_to_date(EGRESO#1381, Some(MM/dd/yyyy), Some(America/Mexico_City), false)) AS EGRESO#1382, INGRE#1333, DIAS_ESTA#1334, TUHPSIQ#1335, SERVHC#1336, SERVHP#1337, CVEEDAD#1338, EDAD#1339, NACIOEN#1340, SEXO#1341, PESO#1342, TALLA#1343, DERHAB#1344, ENTIDAD#1345, MUNIC#1346, LOC#1347, INDIGENA#1348, HABLA_LENGUA#1349, LENGUA_INDIGENA#1350, TIPSERV#1351, SERVICIOINGRE#1352, SERVICIO02#1353, SERVICIO03#1354, ... 25 more fields]
+                        +- Project [ID#1330, CLUES#1331, cast(EGRESO#1332 as string) AS EGRESO#1381, INGRE#1333, DIAS_ESTA#1334, TUHPSIQ#1335, SERVHC#1336, SERVHP#1337, CVEEDAD#1338, EDAD#1339, NACIOEN#1340, SEXO#1341, PESO#1342, TALLA#1343, DERHAB#1344, ENTIDAD#1345, MUNIC#1346, LOC#1347, INDIGENA#1348, HABLA_LENGUA#1349, LENGUA_INDIGENA#1350, TIPSERV#1351, SERVICIOINGRE#1352, SERVICIO02#1353, SERVICIO03#1354, ... 25 more fields]
+                           +- Project [ID#1280 AS ID#1330, CLUES#1281 AS CLUES#1331, EGRESO#1282 AS EGRESO#1332, INGRE#1283 AS INGRE#1333, DIAS_ESTA#1284 AS DIAS_ESTA#1334, TUHPSIQ#1285 AS TUHPSIQ#1335, SERVHC#1286 AS SERVHC#1336, SERVHP#1287 AS SERVHP#1337, CVEEDAD#1288 AS CVEEDAD#1338, EDAD#1289 AS EDAD#1339, NACIOEN#1290 AS NACIOEN#1340, SEXO#1291 AS SEXO#1341, PESO#1292 AS PESO#1342, TALLA#1293 AS TALLA#1343, DERHAB#1294 AS DERHAB#1344, ENTIDAD#1295 AS ENTIDAD#1345, MUNIC#1296 AS MUNIC#1346, LOC#1297 AS LOC#1347, INDIGENA#1298 AS INDIGENA#1348, HABLA_LENGUA#1299 AS HABLA_LENGUA#1349, LENGUA_INDIGENA#1300 AS LENGUA_INDIGENA#1350, TIPSERV#1301 AS TIPSERV#1351, SERVICIOINGRE#1302 AS SERVICIOINGRE#1352, SERVICIO02#1303 AS SERVICIO02#1353, SERVICIO03#1304 AS SERVICIO03#1354, ... 25 more fields]
+                              +- Relation [ID#1280,CLUES#1281,EGRESO#1282,INGRE#1283,DIAS_ESTA#1284,TUHPSIQ#1285,SERVHC#1286,SERVHP#1287,CVEEDAD#1288,EDAD#1289,NACIOEN#1290,SEXO#1291,PESO#1292,TALLA#1293,DERHAB#1294,ENTIDAD#1295,MUNIC#1296,LOC#1297,INDIGENA#1298,HABLA_LENGUA#1299,LENGUA_INDIGENA#1300,TIPSERV#1301,SERVICIOINGRE#1302,SERVICIO02#1303,SERVICIO03#1304,... 25 more fields] csv
+
+2026-04-20 13:17:20,944 - INFO - spark_engine Engine off
+2026-04-20 13:17:20,955 - INFO - Closing down clientserver connection
+2026-04-20 13:18:46,578 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 13:19:04,312 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 13:20:44,607 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-20 13:22:00,360 - INFO - ¡Éxito! Datos guardados en: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\silver\egresos_dgis.parquet
+2026-04-20 13:22:01,059 - INFO - spark_engine Engine off
+2026-04-20 13:22:01,075 - INFO - Closing down clientserver connection
+2026-04-20 13:31:27,736 - INFO - Encendiendo el motor de Pyspark_engine...
+2026-04-20 13:31:48,571 - INFO - Reading data from: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\bronze
+2026-04-20 13:31:58,581 - INFO - Guardando los datos transformados en formato Parquet...
+2026-04-20 13:33:45,952 - INFO - ¡Éxito! Datos guardados en: c:\Users\oswal\OneDrive\Documentos\Personal\Portafolio (Programación)\proyecto_salud_mexico\src\..\data\silver\egresos_dgis.parquet
+2026-04-20 13:33:47,034 - INFO - spark_engine Engine off
+2026-04-20 13:33:47,049 - INFO - Closing down clientserver connection
