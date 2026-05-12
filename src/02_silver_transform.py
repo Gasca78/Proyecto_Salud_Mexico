@@ -1,6 +1,7 @@
 import os
 import logging
 from pyspark.sql import SparkSession
+from pyspark import SparkConf
 import pyspark.sql.functions as F
 from functools import reduce
 
