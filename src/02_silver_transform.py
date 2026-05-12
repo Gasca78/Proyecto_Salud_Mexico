@@ -1,6 +1,6 @@
 import os
 import logging
-from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 from functools import reduce
 
@@ -12,11 +12,16 @@ logging.basicConfig(
 )
 
 # spark_engine Engine
+conf = SparkConf()
+conf.set('spark.executor.memory', '4g')
+conf.set('spark.driver.memory', '4g')
+conf.set('spark.sql.shuffle.partitions', '8')
+
 def start_spark_engine():
-    logging.info('Encendiendo el motor de Pyspark_engine...')
+    logging.info('Encendiendo el motor de spark_engine...')
     spark_engine = SparkSession.builder \
-        .appName('PipelineSalud_Silver') \
-        .config('spark_engine.driver.memory', '4g') \
+        .appName('PipelineSalud_Gold') \
+        .config(conf=conf) \
         .getOrCreate()
     return spark_engine
 
@@ -157,7 +162,7 @@ def mortality_process(data_path):
   
   # 9. Aggrupation
   df_agg = age_discretize(df, age_col='EDAD', new_column='RANGO_EDAD')
-  df_agg = df_agg.filter((F.col('EDAD') >= 2015) & (F.col('EDAD') <= 2024))
+  df_agg = df_agg.filter((F.col('ANIO_OCUR') >= 2015) & (F.col('ANIO_OCUR') <= 2024))
   df_agg = df_agg.groupBy('ENT_RESID', 'NOMBRE_ENTIDADES_RESIDENCIA', 'ANIO_OCUR', 'SEXO', 'RANGO_EDAD').agg(F.count('*').alias('TOTAL_MUERTES'))
   
   # 10. Save the files
@@ -212,7 +217,7 @@ def population_process(data_path):
     F.sum('POB_75_79').alias('75-79'),
     F.sum('POB_80_84').alias('80-84'),
     F.sum('POB_85_MM').alias('85+')
-).orderBy('CLAVE_ENT', 'ANO', 'SEXO')
+)
   
   # 5. Separate an file with only total population
   df_total = df_agg.select('CLAVE_ENT', 'NOMBRE_ENTIDADES', 'ANO', 'SEXO', 'POB_TOTAL')
@@ -314,7 +319,6 @@ def hospital_discharge_process(data_path):
   # 8. Rename an reoder
   df = df.withColumnRenamed('SEXO_', 'SEXO')
   df = df.select('ID', 'ENTIDAD', 'NOMBRE_ENTIDAD', 'ANIO', 'MES_EGRESO', 'INGRE', 'EGRESO', 'DIAS_ESTA', 'EDAD', 'RANGO_EDAD', 'SEXO', 'NACIO_EN_HOSPITAL', 'MOTIVO_EGRESO', 'VEZ_EGRESO', 'AFECPRIN', 'DESCRIPCION_CAUSA')
-  df = df.orderBy('ANIO', 'NOMBRE_ENTIDAD', 'MES_EGRESO')
   
   # 9. Change Sex number to description
   df = df.withColumn('SEXO',
