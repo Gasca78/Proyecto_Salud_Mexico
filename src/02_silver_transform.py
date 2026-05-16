@@ -366,8 +366,8 @@ if __name__=="__main__":
     
     try:
         mortality_process(DATA_PATH)
-        # population_process(DATA_PATH)
-        # hospital_discharge_process(DATA_PATH)
+        population_process(DATA_PATH)
+        hospital_discharge_process(DATA_PATH)
     except Exception as e:
         logging.error(f'Failure in Silver layer: {e}')
     finally:
