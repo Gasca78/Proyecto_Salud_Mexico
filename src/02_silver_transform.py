@@ -60,8 +60,8 @@ Funtion to add a column with the age discretized
 '''
 def age_discretize(df, age_col, new_column='RANGO_EDAD'):
   df = df.withColumn(new_column,
-                     F.when(F.col(age_col) < 5, '0-4')
-                     .when(F.col(age_col) < 10, '5-9')
+                     F.when(F.col(age_col) < 5, '00-04')
+                     .when(F.col(age_col) < 10, '05-09')
                      .when(F.col(age_col) < 15, '10-14')
                      .when(F.col(age_col) < 20, '15-19')
                      .when(F.col(age_col) < 25, '20-24')
@@ -108,65 +108,69 @@ def smart_reader_discharges(file_path):
 
 def mortality_process(data_path):
   # Define paths
-  bronze_path = os.path.join(data_path, 'bronze', 'mortalidad_inegi_20260408.csv')
+  bronze_path = os.path.join(data_path, 'bronze')
   silver_path_pp = os.path.join(data_path, 'silver', 'mortalidad_inegi_per_people.parquet')
   silver_path = os.path.join(data_path, 'silver', 'mortalidad_inegi.parquet')
   
   logging.info(f'Reading data from: {bronze_path}')
   
-  # Read the file
-  df = spark_engine.read.csv(bronze_path, header=True, inferSchema=True, sep=',')
+  # 0. Reading all the files
+  files_list = os.listdir(bronze_path)
+  df_list = []
+  for file in files_list:
+    if 'mortalidad' in file:
+      # Reading the file
+      df_temp = smart_reader_discharges(os.path.join(bronze_path, file))
+      # Filter by heart diseases
+      df_temp = df_temp.filter(F.col('CAUSA_DEF').startswith('I')) 
+      # Select columns
+      df_temp = df_temp.select('ENT_RESID', 'CAUSA_DEF', 'SEXO', 'EDAD', 'DIA_OCURR', 'MES_OCURR', 'ANIO_OCUR', 'DIA_NACIM', 'MES_NACIM', 'ANIO_NACIM')
+      # Save in files_list
+      df_list.append(df_temp)
+  df_join = reduce(lambda df1, df2: df1.unionByName(df2, allowMissingColumns=True), df_list)
   
   # Processing
   
   # 1. Capitalize columns names
-  df = df.toDF(*[c.upper() for c in df.columns])
+  df_final = df_join.toDF(*[c.upper() for c in df_join.columns])
   
-  # 2. Filter by heart deseases
-  df_filtered = df.filter(F.col('CAUSA_DEF').startswith('I'))
+  # 2. Nulls treatment
+  df_final = institutional_null_clean(df_final, ['DIA_OCURR', 'MES_OCURR', 'ANIO_OCUR', 'DIA_NACIM', 'MES_NACIM', 'ANIO_NACIM'])
+  df_limpio = df_final.dropna()
   
-  # 3. Select only the required columns
-  df_selected = df_filtered.select('ENT_RESID', 'CAUSA_DEF', 'SEXO', 'EDAD', 'DIA_OCURR', 'MES_OCURR', 'ANIO_OCUR', 'DIA_NACIM', 'MES_NACIM', 'ANIO_NACIM', 'TIPO_DEFUN')
-  
-  # 4. Nulls treatment
-  df_selected = institutional_null_clean(df_selected, ['DIA_OCURR', 'MES_OCURR', 'ANIO_OCUR', 'DIA_NACIM', 'MES_NACIM', 'ANIO_NACIM'])
-  df_limpio = df_selected.dropna()
-  
-  # 4. Get a date column 
+  # 3. Get a date column 
   df = date_transform(df_limpio, 'DIA_OCURR', 'MES_OCURR', 'ANIO_OCUR', new_column='FECHA_OCURR', erase_day=True)
   df = date_transform(df, 'DIA_NACIM', 'MES_NACIM', 'ANIO_NACIM', new_column='FECHA_NACIM', erase_day=True)
   
-  # 5. Add descriptions
+  # 4. Add descriptions
   # Desiese description (CIE10)
   df_cat_cie10 = cat_cie10.select('CLAVE', 'NOMBRE')
   df = add_description(df, df_cat_cie10, code_col='CAUSA_DEF', union_code='CLAVE', description_col='NOMBRE', new_column='DESCRIPCION_CAUSA')
-  # Death description
-  df = add_description(df, cat_tipo_def, code_col='TIPO_DEFUN', union_code='CVE', description_col='DESCRIP', new_column='DESCRIPCION_TIPO_DEF')
   # Entity residence
   df = df.filter(F.col('ENT_RESID') <= 32)
   df = add_description(df, cat_entidades, code_col='ENT_RESID', union_code='EDO', description_col='DESCRIP', new_column='NOMBRE_ENTIDADES_RESIDENCIA')
   
-  # 6. Fix Ages
+  # 5. Fix Ages
   df = df.withColumn('EDAD',
                       F.when(F.col('EDAD').cast('string').startswith('4'), F.col('EDAD')-4000)
                       .when(F.col('EDAD') > 120, F.lit(None))
                       .otherwise(0))
   
-  # 7. Change Sex number to description
+  # 6. Change Sex number to description
   df = df.withColumn('SEXO',
                       F.when(F.col('SEXO') == 1, 'HOMBRES')
                       .when(F.col('SEXO') == 2, 'MUJERES')
                       .otherwise('DESCONOCIDO'))
   
-  # 8. Reorder dataframe columns
-  df = df.select('ENT_RESID', 'NOMBRE_ENTIDADES_RESIDENCIA', 'ANIO_OCUR', 'FECHA_OCURR', 'FECHA_NACIM', 'SEXO', 'EDAD', 'CAUSA_DEF', 'DESCRIPCION_CAUSA', 'TIPO_DEFUN', 'DESCRIPCION_TIPO_DEF')
+  # 7. Reorder dataframe columns
+  df = df.select('ENT_RESID', 'NOMBRE_ENTIDADES_RESIDENCIA', 'ANIO_OCUR', 'FECHA_OCURR', 'FECHA_NACIM', 'SEXO', 'EDAD', 'CAUSA_DEF', 'DESCRIPCION_CAUSA')
   
-  # 9. Aggrupation
+  # 8. Aggrupation
   df_agg = age_discretize(df, age_col='EDAD', new_column='RANGO_EDAD')
-  df_agg = df_agg.filter((F.col('ANIO_OCUR') >= 2015) & (F.col('ANIO_OCUR') <= 2024))
+  df_agg = df_agg.filter((F.col('ANIO_OCUR') >= 2014) & (F.col('ANIO_OCUR') <= 2025))
   df_agg = df_agg.groupBy('ENT_RESID', 'NOMBRE_ENTIDADES_RESIDENCIA', 'ANIO_OCUR', 'SEXO', 'RANGO_EDAD').agg(F.count('*').alias('TOTAL_MUERTES'))
   
-  # 10. Save the files
+  # 9. Save the files
   logging.info("Guardando los datos transformados en formato Parquet...")
   df.write.mode("overwrite").parquet(silver_path_pp)
   df_agg.write.mode("overwrite").parquet(silver_path)
@@ -200,8 +204,8 @@ def population_process(data_path):
   # 4. Aggrupation
   df_agg = df.groupBy('CLAVE_ENT', 'NOMBRE_ENTIDADES', 'ANO', 'SEXO').agg(
     F.sum('POB_TOTAL').alias('POB_TOTAL'),
-    F.sum('POB_00_04').alias('0-4'),
-    F.sum('POB_05_09').alias('5-9'),
+    F.sum('POB_00_04').alias('00-04'),
+    F.sum('POB_05_09').alias('05-09'),
     F.sum('POB_010_014').alias('10-14'),
     F.sum('POB_015_019').alias('15-19'),
     F.sum('POB_20_24').alias('20-24'),
@@ -362,8 +366,8 @@ if __name__=="__main__":
     
     try:
         mortality_process(DATA_PATH)
-        population_process(DATA_PATH)
-        hospital_discharge_process(DATA_PATH)
+        # population_process(DATA_PATH)
+        # hospital_discharge_process(DATA_PATH)
     except Exception as e:
         logging.error(f'Failure in Silver layer: {e}')
     finally:

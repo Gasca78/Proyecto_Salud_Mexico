@@ -42,15 +42,19 @@ def final_df(data_path):
     df_poblacion = spark_engine.read.parquet(poblacion_path)
     
     # 2. Normalize information (name columns)
-    # Mortalidad
+    # Mortality
     map_mortalidad = {'ENT_RESID': 'ID_ESTADO', 'NOMBRE_ENTIDADES_RESIDENCIA': 'ESTADO', 'ANIO_OCUR': 'ANIO_ANALISIS'}
     df_mortalidad = df_mortalidad.withColumnsRenamed(map_mortalidad)
-    # Población
+    # Poblation
     map_poblacion = {'CLAVE_ENT': 'ID_ESTADO', 'NOMBRE_ENTIDADES': 'ESTADO', 'ANO': 'ANIO_ANALISIS'}
     df_poblacion = df_poblacion.withColumnsRenamed(map_poblacion)
     
-    # 3. Filter df_poblacion to get only the years we need (2015-2025)
-    df_poblacion = df_poblacion.filter((F.col('ANIO_ANALISIS') >= 2015) & (F.col('ANIO_ANALISIS') <= 2025))
+    # 3. Filter df_poblacion to get only the years we need (2014-2024) and keep only males and females
+    filter_age = ((F.col('ANIO_ANALISIS') >= 2014) & (F.col('ANIO_ANALISIS') <= 2024))
+    filter_sex = F.col('SEXO').isin('HOMBRES', 'MUJERES')
+    df_poblacion = df_poblacion.filter(filter_age & filter_sex)
+    df_egresos = df_egresos.filter(filter_age & filter_sex)
+    df_mortalidad = df_mortalidad.filter(filter_age & filter_sex)
     
     # 3.5 Make sure dataframes are correctly grouping
     # Collapse df_mortalidad
