@@ -30,6 +30,7 @@ El producto final es un dashboard interactivo en Power BI que revela:
 
 ![Dashboard de Salud](https://github.com/Gasca78/Proyecto_Salud_Mexico/blob/main/dashboard/Panel_1.png)
 ![Dashboard de Salud](https://github.com/Gasca78/Proyecto_Salud_Mexico/blob/main/dashboard/Panel_2.png)
+![Demo del Dashboard interactivo](https://github.com/Gasca78/Proyecto_Salud_Mexico/blob/main/dashboard/dashboard_gif.gif)
 
 ## ⚙️ Cómo ejecutar este proyecto
 1. Clonar el repositorio: `git clone [https://github.com/Gasca78/Proyecto_Salud_Mexico/]`
