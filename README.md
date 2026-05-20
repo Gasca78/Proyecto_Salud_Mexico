@@ -1,41 +1,50 @@
-# 🏥 Data Engineering Pipeline: Análisis de Salud Pública (Enfermedades Cardiovasculares en México)
+# 🏥 Serverless Data Engineering Pipeline: Análisis de Salud Pública Cloud
+### Monitoreo de Enfermedades Cardiovasculares en México (AWS Nativo)
 
-![Python](https://img.shields.io/badge/Python-3.10-blue)
-![PySpark](https://img.shields.io/badge/PySpark-Data_Processing-orange)
-![PowerBI](https://img.shields.io/badge/PowerBI-Dashboard-yellow)
-![Status](https://img.shields.io/badge/Status-Completed-success)
+![AWS S3](https://img.shields.io/badge/AWS-S3_Data_Lake-red?logo=amazons3)
+![AWS Lambda](https://img.shields.io/badge/AWS-Lambda_Event_Driven-orange?logo=awslambda)
+![AWS Glue](https://img.shields.io/badge/AWS-Glue_Serverless_Spark-orange?logo=amazonaws)
+![Amazon Athena](https://img.shields.io/badge/Amazon-Athena_SQL-blue?logo=amazonaws)
+![PowerBI](https://img.shields.io/badge/PowerBI-DirectQuery-yellow?logo=powerbi)
 
 ## 📌 Descripción del Proyecto
-Este proyecto es un pipeline de datos **End-to-End (E2E)** diseñado para procesar, limpiar y analizar más de 10 años de datos históricos (2014-2024) sobre mortalidad y egresos hospitalarios por afecciones cardiovasculares en México. 
+Este proyecto consiste en el diseño e implementación de un pipeline de datos **End-to-End (E2E) y Serverless** en la nube de AWS. Procesa, limpia y consolida más de 10 años de datos históricos (2014-2024) de mortalidad y egresos hospitalarios por afecciones cardiovasculares en México, permitiendo análisis epidemiológicos de gran escala mediante métricas estandarizadas (Tasas por cada 100,000 habitantes).
 
-El objetivo principal fue construir un Data Warehouse estructurado y optimizado que permita a los tomadores de decisiones visualizar el riesgo epidemiológico a nivel nacional, estandarizando las métricas (Tasa por cada 100,000 habitantes) para comparaciones demográficas justas.
+## 🏗️ Arquitectura de Datos y Flujo Cloud (Medallion Architecture)
+La solución implementa un patrón moderno de desacoplamiento de almacenamiento y cómputo (*Storage vs. Compute*) estructurado bajo la arquitectura Medallion, orquestado mediante una arquitectura **Event-Driven**:
 
-## 🏗️ Arquitectura de Datos (Medallion Architecture)
-El proyecto sigue la arquitectura Medallion (Bronze, Silver, Gold) utilizando **PySpark** para el procesamiento distribuido:
+```mermaid
+graph LR
+    A[Fuentes Gov: INEGI/DGIS/CONAPO] -->|Extracción e Ingesta| B(Amazon S3: bronze/)
+    B -->|AWS Glue Job: PySpark Silver| C(Amazon S3: silver/)
+    C -->|AWS Glue Job: PySpark Gold| D(Amazon S3: gold/ particionado)
+    D -->|Glue Crawler| E[AWS Glue Data Catalog]
+    E --- F[Amazon Athena]
+    F -->|DirectQuery / Simba ODBC| G[Power BI Dashboard Live]
+```
 
-1. **Capa Bronze (Raw):** Ingesta de archivos `.csv` y `.zip` extraídos mediante Web Scraping (Requests/BeautifulSoup) con bypass de medidas Anti-Bot desde portales gubernamentales (INEGI, DGIS, CONAPO).
-2. **Capa Silver (Cleansed):** Estandarización de columnas, imputación de nulos, formateo de fechas, mapeo de catálogos (CIE-10) y normalización de llaves asimétricas (ej. formateo `00-04` vs `0-4`). Datos guardados en formato `.parquet`.
-3. **Capa Gold (Business-level):** Construcción de la Tabla de Hechos (`fact_dataset.parquet`) mediante un *Full Outer Join* de las dimensiones de población, mortalidad y egresos.
+1. **Capa Bronze (Almacenamiento de Objetos S3):** Depósito centralizado de archivos históricos `.csv` extraídos de portales gubernamentales. La llegada de un nuevo archivo dispara automáticamente un evento `s3:ObjectCreated:*`.
+2. **Orquestación Event-Driven (AWS Lambda + Glue Triggers):** Una función Lambda intercepta el evento de S3 e inicia de manera asíncrona el pipeline de transformación. Los pasos subsecuentes se encadenan de forma nativa mediante Glue Event Triggers, previniendo *timeouts* y optimizando costos de cómputo.
+3. **Capa Silver (AWS Glue ETL - PySpark):** Procesamiento distribuido serverless optimizado a 2 Workers (G.1X). Implementa limpieza avanzada, tipado estricto, imputación de nulos, homogeneización de formatos de fecha asimétricos y mapeo de diccionarios médicos internacionales (CIE-10). Datos persistidos en formato comprimido **Apache Parquet**.
+4. **Capa Gold (Modelado Analítico de Negocio):** Consolidación automatizada mediante un *Mega Join* analítico de los tres universos (Población, Mortalidad, Egresos). Los datos son **particionados físicamente por Año y Estado** para maximizar la velocidad de lectura (`Partition Pruning`).
 
-## 🚀 Desafíos Técnicos Resueltos
-* **Prevención de Out-of-Memory (OOM) y Cartesian Joins:** Se optimizó el motor de Spark limitando las particiones de *shuffle* (`spark.sql.shuffle.partitions = 8`) y materializando dataframes en memoria (`.cache()`) tras realizar agrupaciones (`groupBy`) previas a los cruces masivos.
-* **Resolución de Data Swamps:** Gestión de metadatos y control de versiones en sistemas de archivos locales/Drive para evitar la lectura de *ghost partitions* en archivos Parquet fragmentados.
-* **Cálculo DAX Dinámico:** Implementación de medidas para evitar la suma lineal de tasas, calculando iterativamente `DIVIDE(SUM(Muertes) * 100000, SUM(Poblacion))` según el contexto del filtro en el dashboard.
+## 🚀 Desafíos Técnicos Cloud Resueltos
+* **Evasión de JAR Hell y Conflictos de Red de la JVM:** Se implementó un desacoplamiento de red utilizando la API de Spark nativa de AWS en entornos administrados, eliminando las dependencias y latencias de protocolos externos en la nube de Amazon.
+* **Manejo de Errores de Versión de Motores (Spark 3.3 vs 3.4):** Se resolvieron incompatibilidades funcionales (*Unresolved Routines*) adaptando expresiones analíticas estrictas a APIs nativas de columnas compatibles con entornos Serverless estables (AWS Glue 4.0), reemplazando `try_to_date` por cascadas controladas de `F.coalesce` y `F.to_date` tolerantes a milisegundos anómalos (`.SSS`).
+* **Bypass de la división entera en Motores SQL ANSI (Amazon Athena):** Se corrigió la pérdida de precisión decimal (`QUERY_ERROR`) forzando conversiones de tipo explícitas (`CAST AS DOUBLE`) y multiplicaciones flotantes en consultas SQL agregadas para prevenir tasas de mortalidad en cero.
+* **Seguridad y Acceso Basado en Roles (IAM):** Configuración de políticas de menor privilegio (`AmazonAthenaFullAccess`, `AmazonS3FullAccess`, `AWSLambdaBasicExecutionRole`) para establecer túneles de comunicación seguros y ejecuciones orquestadas.
 
 ## 📊 Dashboard y Resultados
-El producto final es un dashboard interactivo en Power BI que revela:
-* La curva biológica de riesgo cardiovascular (pico en el rango de 75-84 años).
-* El impacto histórico de la pandemia (2020-2021) en la saturación hospitalaria y mortalidad.
-* Distribución geográfica del riesgo epidemiológico mediante un mapa de formas.
+El producto final es un panel estratégico de salud pública conectado en vivo (*DirectQuery*) mediante ODBC a Amazon Athena, lo que permite:
+* Identificar zonas de vulnerabilidad epidemiológica extrema mediante correlación geográfica.
+* Evaluar el impacto real de la saturación hospitalaria frente al incremento de muertes por causas cardiovasculares durante el periodo de pandemia (2020-2021).
+* Analizar de manera dinámica micro-segmentos demográficos sin latencia, gracias a la partición de datos en el Data Lake.
 
 ![Dashboard de Salud](https://github.com/Gasca78/Proyecto_Salud_Mexico/blob/main/dashboard/Panel_1.png)
 ![Dashboard de Salud](https://github.com/Gasca78/Proyecto_Salud_Mexico/blob/main/dashboard/Panel_2.png)
 ![Demo del Dashboard interactivo](https://github.com/Gasca78/Proyecto_Salud_Mexico/blob/main/dashboard/dashboard_gif.gif)
 
-## ⚙️ Cómo ejecutar este proyecto
-1. Clonar el repositorio: `git clone [https://github.com/Gasca78/Proyecto_Salud_Mexico/]`
-2. Instalar dependencias: `pip install -r requirements.txt`
-3. Ejecutar las capas en orden:
-   ```bash
-   python src/pipeline_silver.py
-   python src/03_gold_fact_salud.py
+## ⚙️ Estructura del Repositorio
+* `src/pipeline_silver.py`: Script de PySpark ejecutado en AWS Glue para la transformación de capas limpias.
+* `src/pipeline_gold.py`: Script analítico para agregaciones, cálculos matemáticos de tasas y particionamiento en S3.
+* `automation/lambda_trigger.py`: Función *serverless* que sirve como punto de entrada (Event Handler) para la orquestación continua del pipeline.
